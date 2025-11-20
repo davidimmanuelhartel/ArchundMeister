@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architekt & Meister</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Space Grotesk for that architectural/technical header feel, Inter for body readability -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Space Grotesk', 'sans-serif'],
+            },
+            colors: {
+              'am-black': '#111111',
+              'am-offwhite': '#f9f9f9',
+              'am-gray': '#e5e5e5',
+              'am-accent': '#111111', /* Changed from blue to black for monochrome look */
+            },
+            fontSize: {
+              'huge': 'clamp(3rem, 8vw, 10rem)',
+              'big': 'clamp(2rem, 5vw, 6rem)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #f9f9f9;
+        overflow-x: hidden;
+      }
+      /* Hide scrollbar for clean look */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      
+      /* Smooth selection */
+      ::selection {
+        background-color: #111111;
+        color: #ffffff;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.4.7"
+  }
+}
+</script>
+</head>
+  <body class="bg-am-offwhite text-am-black font-sans">
+    <div id="root"></div>
+  </body>
+</html>
