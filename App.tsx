@@ -98,8 +98,8 @@ const FullscreenMenu = ({ isOpen, close }: { isOpen: boolean, close: () => void 
                     <div className="font-mono text-sm text-gray-400 space-y-1">
                         <p>Buchenstraße 20</p>
                         <p>01097 Dresden</p>
-                        <p className="pt-4">architektundmeister@gmail.com</p>
-                        <p className="mb-8">+49 151 22807682</p>
+                        <p className="pt-4">david.immanuel.hartel@gmail.com</p>
+                        <p className="mb-8">+4550229878</p>
 
                         {/* Secondary Navigation / Legal Links */}
                         <div className="flex flex-col gap-2 pt-4 border-t border-gray-800 w-fit">
@@ -532,11 +532,11 @@ const Footer = () => {
                             <p className="font-mono text-lg text-gray-400 max-w-md">
                                 Interessiert an einem maßgefertigten Stück oder einer architektonischen Beratung?
                             </p>
-                            <a href="mailto:architektundmeister@gmail.com" className="inline-block mt-8 text-2xl font-display border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition-colors">
-                                architektundmeister@gmail.com
+                            <a href="mailto:david.immanuel.hartel@gmail.com" className="inline-block mt-8 text-2xl font-display border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition-colors">
+                                david.immanuel.hartel@gmail.com
                             </a>
-                            <a href="tel:+4915122807682" className="block mt-2 text-xl font-display hover:text-gray-400 transition-colors">
-                                +49 151 22807682
+                            <a href="tel:+4550229878" className="block mt-2 text-xl font-display hover:text-gray-400 transition-colors">
+                                +4550229878
                             </a>
                         </div>
                         <div className="grid grid-cols-2 font-mono text-sm text-gray-500">
@@ -624,8 +624,8 @@ const Consultation = () => (
                         Besuchen Sie uns im Atelier oder vereinbaren Sie einen digitalen Termin.
                     </p>
                     <div className="font-display text-3xl space-y-2 font-bold">
-                        <a href="tel:+4915122807682" className="block hover:text-gray-600 transition-colors">+49 151 22807682</a>
-                        <a href="mailto:architektundmeister@gmail.com" className="block hover:text-gray-600 transition-colors">Mail senden</a>
+                        <a href="tel:+4550229878" className="block hover:text-gray-600 transition-colors">+4550229878</a>
+                        <a href="mailto:david.immanuel.hartel@gmail.com" className="block hover:text-gray-600 transition-colors">Mail senden</a>
                     </div>
                 </div>
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
