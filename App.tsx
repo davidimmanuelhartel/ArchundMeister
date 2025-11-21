@@ -5,6 +5,7 @@ import { Menu, X, ArrowRight, ArrowUpRight, CheckCircle } from 'lucide-react';
 import { PRODUCTS, LEGAL_TEXTS } from './data';
 import { Product, OrderForm } from './types';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
+import { supabase } from './lib/supabase';
 
 // --- Utilities ---
 
@@ -450,13 +451,89 @@ const Checkout = () => {
     const product = PRODUCTS.find(p => p.id === productId);
     
     const [formData, setFormData] = useState<OrderForm>({
-      name: '', email: '', phone: '', street: '', houseNumber: '', postcode: '', country: ''
+      name: '', email: '', phone: '', street: '', houseNumber: '', postcode: '', country: 'Deutschland'
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
   
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      const ref = `AM-${new Date().getFullYear()}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
-      navigate('/confirmation', { state: { ref, product, formData } });
+      setIsSubmitting(true);
+      setError(null);
+
+      if (!product) {
+        setError('Produkt nicht gefunden.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      try {
+        // Generate reference number
+        const ref = `AM-${new Date().getFullYear()}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
+
+        // Insert order into Supabase
+        const { data: orderData, error: dbError } = await supabase
+          .from('orders')
+          .insert([
+            {
+              reference: ref,
+              customer_name: formData.name,
+              customer_email: formData.email,
+              customer_phone: formData.phone || null,
+              street: formData.street,
+              house_number: formData.houseNumber,
+              postcode: formData.postcode,
+              country: formData.country,
+              product_id: product.id,
+              product_name: product.name,
+              product_price: product.price,
+              status: 'pending'
+            }
+          ])
+          .select()
+          .single();
+
+        if (dbError) {
+          throw new Error(`Datenbankfehler: ${dbError.message}`);
+        }
+
+        // Call Edge Function to send emails
+        const { data: functionData, error: functionError } = await supabase.functions.invoke('send-order-emails', {
+          body: {
+            reference: ref,
+            customer_name: formData.name,
+            customer_email: formData.email,
+            customer_phone: formData.phone || null,
+            street: formData.street,
+            house_number: formData.houseNumber,
+            postcode: formData.postcode,
+            country: formData.country,
+            product_name: product.name,
+            product_price: product.price,
+            product_id: product.id
+          }
+        });
+
+        // Note: We don't fail the order if email fails - it's logged but order is still saved
+        if (functionError) {
+          console.error('Email sending failed:', functionError);
+          // Continue anyway - order is saved
+        }
+
+        // Navigate to confirmation page
+        navigate('/confirmation', { 
+          state: { 
+            ref, 
+            product, 
+            formData,
+            orderId: orderData?.id 
+          } 
+        });
+      } catch (err) {
+        console.error('Order submission error:', err);
+        setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+        setIsSubmitting(false);
+      }
     };
   
     if (!product) return <div className="pt-32 text-center font-mono">Kein Produkt ausgewählt.</div>;
@@ -507,11 +584,18 @@ const Checkout = () => {
                     />
                 </div>
 
+                {error && (
+                  <div className="mt-4 p-4 bg-red-50 border border-red-200 text-red-700 font-mono text-sm">
+                    {error}
+                  </div>
+                )}
+
                 <button 
                     type="submit" 
-                    className="w-full bg-black text-white border border-black py-5 font-display font-bold text-xl uppercase tracking-wide hover:bg-white hover:text-black transition-all duration-300 mt-12 shadow-md hover:shadow-lg"
+                    disabled={isSubmitting}
+                    className="w-full bg-black text-white border border-black py-5 font-display font-bold text-xl uppercase tracking-wide hover:bg-white hover:text-black transition-all duration-300 mt-12 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    Bestellung Abschliessen
+                    {isSubmitting ? 'Wird gesendet...' : 'Bestellung Abschliessen'}
                 </button>
            </form>
         </div>
@@ -587,7 +671,9 @@ const Confirmation = () => {
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-white animate-[loading_2s_ease-in-out]" />
           <h1 className="font-display text-6xl font-bold mb-6">DANKE.</h1>
-          <p className="font-mono text-gray-400 mb-12">Ihre Anfrage ist eingegangen. Referenz: {state.ref}</p>
+          <p className="font-mono text-gray-400 mb-4">Ihre Bestellung wurde erfolgreich übermittelt.</p>
+          <p className="font-mono text-gray-400 mb-2">Referenznummer: <span className="text-white font-bold">{state.ref}</span></p>
+          <p className="font-mono text-sm text-gray-500 mb-8">Eine Bestätigungs-E-Mail wurde an {state.formData.email} gesendet.</p>
           <Link to="/" className="text-xl font-display underline decoration-1 underline-offset-4 hover:text-gray-300">Zurück zur Startseite</Link>
         </motion.div>
       </div>
@@ -654,7 +740,7 @@ const AppContent = () => {
         
         <main>
             <AnimatePresence mode='wait'>
-                <Routes location={location} key={location.pathname}>
+                <Routes location={location}>
                     <Route path="/" element={
                         <PageTransition>
                             <Hero />
