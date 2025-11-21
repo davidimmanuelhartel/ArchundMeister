@@ -1,20 +1,61 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Architekt & Meister
 
-# Run and deploy your AI Studio app
+E-commerce website for custom furniture and architectural design services.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/drive/1upBFNLcfwtViuSF699sXANadcNoX9wDi
+- Product catalog with detailed product pages
+- Order management with Supabase backend
+- Automated email notifications (customer confirmation + business alerts)
+- Responsive design with smooth animations
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+- **Frontend**: React + TypeScript + Vite
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Backend**: Supabase (Database + Edge Functions)
+- **Email**: Resend
+- **Deployment**: Vercel
 
+## Local Development
+
+**Prerequisites:** Node.js
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Set up environment variables:
+   Create `.env.local` file:
+   ```env
+   VITE_SUPABASE_URL=your-supabase-project-url
+   VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open `http://localhost:5173` in your browser
+
+## Deployment
+
+This project is configured for deployment on Vercel. The `vercel.json` file contains the necessary configuration.
+
+### Environment Variables for Vercel
+
+Add these in your Vercel project settings:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+## Project Structure
+
+- `App.tsx` - Main application component with routing
+- `lib/supabase.ts` - Supabase client configuration
+- `supabase/functions/send-order-emails/` - Edge Function for email notifications
+- `supabase/schema.sql` - Database schema
+- `data.ts` - Product and legal text data
+- `types.ts` - TypeScript type definitions
