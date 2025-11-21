@@ -632,8 +632,8 @@ const Footer = () => {
                             </ul>
                             <ul>
                                 <li className="text-white uppercase mb-4">Social</li>
-                                <li className="mb-2"><a href="#" className="hover:text-white">Instagram</a></li>
-                                <li className="mb-2"><a href="#" className="hover:text-white">Pinterest</a></li>
+                                <li className="mb-2"><a href="https://www.instagram.com/architekt.meister/" target="_blank" rel="noopener noreferrer" className="hover:text-white">Instagram</a></li>
+                                <li className="mb-2"><a href="https://de.pinterest.com/architektundmeister/" target="_blank" rel="noopener noreferrer" className="hover:text-white">Pinterest</a></li>
                             </ul>
                         </div>
                     </div>

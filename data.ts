@@ -58,7 +58,7 @@ export const LEGAL_TEXTS = {
 Buchenstraße 20, 01097 Dresden, Deutschland
 
 Telefon: +49 151 22807682
-E-Mail: architektundmeister@gmail.com
+E-Mail: david.immanuel.hartel@gmail.com
 
 Vertreten durch: Lukas Westphalen
 Mitarbeiter für Kundenservice: Niclas Schlötke
