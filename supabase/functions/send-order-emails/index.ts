@@ -3,8 +3,10 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const BUSINESS_EMAIL = Deno.env.get("BUSINESS_EMAIL") || "architektundmeister@gmail.com";
-// Update this to your verified domain email address (e.g., "noreply@yourdomain.com")
-const FROM_EMAIL = Deno.env.get("FROM_EMAIL") || "noreply@architekturundmeister.de";
+// Use Resend's test domain (no verification needed) or your verified domain
+const FROM_EMAIL = Deno.env.get("FROM_EMAIL") || "onboarding@resend.dev";
+// Reply-to address - recipients can reply to this Gmail address
+const REPLY_TO_EMAIL = Deno.env.get("REPLY_TO_EMAIL") || "architektundmeister@gmail.com";
 
 interface OrderData {
   reference: string;
@@ -168,6 +170,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: FROM_EMAIL,
+        reply_to: REPLY_TO_EMAIL,
         to: orderData.customer_email,
         subject: `Bestätigung Ihrer Bestellung - ${orderData.reference}`,
         html: customerEmailHtml,
@@ -196,6 +199,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: FROM_EMAIL,
+        reply_to: REPLY_TO_EMAIL,
         to: BUSINESS_EMAIL,
         subject: `Neue Bestellung: ${orderData.reference}`,
         html: businessEmailHtml,
