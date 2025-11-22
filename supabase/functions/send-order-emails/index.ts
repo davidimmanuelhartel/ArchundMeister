@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const BUSINESS_EMAIL = Deno.env.get("BUSINESS_EMAIL") || "david.immanuel.hartel@gmail.com";
+const BUSINESS_EMAIL = Deno.env.get("BUSINESS_EMAIL") || "architektundmeister@gmail.com";
 // Update this to your verified domain email address (e.g., "noreply@yourdomain.com")
 const FROM_EMAIL = Deno.env.get("FROM_EMAIL") || "noreply@architekturundmeister.de";
 
@@ -86,7 +86,7 @@ serve(async (req) => {
               <p>Mit freundlichen Grüßen,<br>Architekt & Meister</p>
             </div>
             <div class="footer">
-              <p>Architekt & Meister<br>Buchenstraße 20, 01097 Dresden<br>david.immanuel.hartel@gmail.com | +4550229878</p>
+              <p>Architekt & Meister<br>Buchenstraße 20, 01097 Dresden<br>architektundmeister@gmail.com | +49 151 22807682</p>
             </div>
           </div>
         </body>
