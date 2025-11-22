@@ -176,7 +176,12 @@ serve(async (req) => {
 
     if (!customerEmailResponse.ok) {
       const errorText = await customerEmailResponse.text();
-      const errorJson = JSON.parse(errorText).catch(() => ({ message: errorText }));
+      let errorJson;
+      try {
+        errorJson = JSON.parse(errorText);
+      } catch {
+        errorJson = { message: errorText };
+      }
       console.error("Failed to send customer email:", errorText);
       console.error("Customer email error details:", errorJson);
       // Don't throw - continue to send business email even if customer email fails
@@ -199,7 +204,12 @@ serve(async (req) => {
 
     if (!businessEmailResponse.ok) {
       const errorText = await businessEmailResponse.text();
-      const errorJson = JSON.parse(errorText).catch(() => ({ message: errorText }));
+      let errorJson;
+      try {
+        errorJson = JSON.parse(errorText);
+      } catch {
+        errorJson = { message: errorText };
+      }
       console.error("Failed to send business email:", errorText);
       console.error("Business email error details:", errorJson);
     }
