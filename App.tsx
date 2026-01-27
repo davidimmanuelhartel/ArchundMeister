@@ -267,7 +267,7 @@ const HorizontalPhilosophy = () => {
                 <div className="grid md:grid-cols-2 gap-8">
                     <div>
                         <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white pb-2">Handwerk</p>
-                        <p className="text-lg leading-relaxed text-gray-300">Materialwissen. Präzision. 30 Jahre Erfahrung. Keine Maschine ersetzt das Auge des Meisters.</p>
+                        <p className="text-lg leading-relaxed text-gray-300">Materialwissen. Präzision. 10 Jahre Erfahrung. Keine Maschine ersetzt das Auge des Meisters.</p>
                     </div>
                     <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" className="w-full h-48 object-cover grayscale opacity-70" alt="Meister Werkstatt" />
                 </div>
