@@ -5,7 +5,6 @@ import { Menu, X, ArrowRight, ArrowUpRight, CheckCircle } from 'lucide-react';
 import { PRODUCTS, LEGAL_TEXTS } from './data';
 import { Product, OrderForm } from './types';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
-import { supabase } from './lib/supabase';
 
 // --- Utilities ---
 
@@ -483,66 +482,35 @@ const Checkout = () => {
       }
 
       try {
-        // Generate reference number
-        const ref = `AM-${new Date().getFullYear()}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
-
-        // Insert order into Supabase
-        const { data: orderData, error: dbError } = await supabase
-          .from('orders')
-          .insert([
-            {
-              reference: ref,
-              customer_name: formData.name,
-              customer_email: formData.email,
-              customer_phone: formData.phone || null,
-              street: formData.street,
-              house_number: formData.houseNumber,
-              postcode: formData.postcode,
-              country: formData.country,
-              product_id: product.id,
-              product_name: product.name,
-              product_price: product.price,
-              status: 'pending'
-            }
-          ])
-          .select()
-          .single();
-
-        if (dbError) {
-          throw new Error(`Datenbankfehler: ${dbError.message}`);
-        }
-
-        // Call Edge Function to send emails
-        const { data: functionData, error: functionError } = await supabase.functions.invoke('send-order-emails', {
-          body: {
-            reference: ref,
-            customer_name: formData.name,
-            customer_email: formData.email,
-            customer_phone: formData.phone || null,
+        const res = await fetch('/api/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone || undefined,
             street: formData.street,
-            house_number: formData.houseNumber,
+            houseNumber: formData.houseNumber,
             postcode: formData.postcode,
             country: formData.country,
-            product_name: product.name,
-            product_price: product.price,
-            product_id: product.id
-          }
+            productId: product.id,
+            productName: product.name,
+            productPrice: product.price,
+          }),
         });
+        const data = await res.json();
 
-        // Note: We don't fail the order if email fails - it's logged but order is still saved
-        if (functionError) {
-          console.error('Email sending failed:', functionError);
-          // Continue anyway - order is saved
+        if (!res.ok) {
+          throw new Error(data.error || 'Bestellung fehlgeschlagen.');
         }
 
-        // Navigate to confirmation page
-        navigate('/confirmation', { 
-          state: { 
-            ref, 
-            product, 
+        navigate('/confirmation', {
+          state: {
+            ref: data.reference,
+            product,
             formData,
-            orderId: orderData?.id 
-          } 
+            orderId: data.orderId,
+          },
         });
       } catch (err) {
         console.error('Order submission error:', err);
