@@ -83,7 +83,10 @@ export async function POST(request: Request) {
   const resendKey = process.env.RESEND_API_KEY;
   const businessEmail = process.env.BUSINESS_EMAIL || 'architektundmeister@gmail.com';
   const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
+  const fromName = process.env.FROM_NAME || '';
   const replyToEmail = process.env.REPLY_TO_EMAIL || 'architektundmeister@gmail.com';
+
+  const fromHeader = fromName.trim() ? `"${fromName.trim()}" <${fromEmail}>` : fromEmail;
 
   if (!dbUrl) {
     return new Response(
@@ -123,7 +126,6 @@ export async function POST(request: Request) {
     const row = Array.isArray(insertRows) ? insertRows[0] : (insertRows as unknown as { id: string }[])[0];
     orderId = (row as { id: string }).id;
   } catch (err) {
-    console.error('DB insert error:', err);
     return new Response(
       JSON.stringify({ success: false, error: err instanceof Error ? err.message : 'Database error' }),
       { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
@@ -139,38 +141,30 @@ export async function POST(request: Request) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
         body: JSON.stringify({
-          from: fromEmail,
+          from: fromHeader,
           reply_to: replyToEmail,
           to: email,
           subject: `Bestätigung Ihrer Bestellung - ${ref}`,
           html: buildCustomerEmailHtml(orderData),
         }),
       });
-      if (!customerEmailRes.ok) {
-        const errBody = await customerEmailRes.text();
-        console.error('Resend customer email failed:', customerEmailRes.status, errBody);
-      }
-    } catch (e) {
-      console.error('Customer email request failed:', e);
+    } catch {
+      // ignore
     }
     try {
       const businessEmailRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
         body: JSON.stringify({
-          from: fromEmail,
+          from: fromHeader,
           reply_to: replyToEmail,
           to: businessEmail,
           subject: `Neue Bestellung: ${ref}`,
           html: buildBusinessEmailHtml(orderData),
         }),
       });
-      if (!businessEmailRes.ok) {
-        const errBody = await businessEmailRes.text();
-        console.error('Resend business email failed:', businessEmailRes.status, errBody);
-      }
-    } catch (e) {
-      console.error('Business email request failed:', e);
+    } catch {
+      // ignore
     }
   }
 

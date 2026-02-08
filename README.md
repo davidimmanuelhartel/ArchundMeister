@@ -34,7 +34,8 @@ E-commerce website for custom furniture and architectural design services.
    DATABASE_URL=your-neon-connection-string
    RESEND_API_KEY=your-resend-api-key
    BUSINESS_EMAIL=architektundmeister@gmail.com
-   FROM_EMAIL=onboarding@resend.dev
+   FROM_EMAIL=bestellung@architektundmeister.de
+   FROM_NAME=ARCHITEKTUNDMEISTER
    REPLY_TO_EMAIL=architektundmeister@gmail.com
    ```
 
@@ -57,6 +58,7 @@ Add these in your Vercel project settings:
 - `RESEND_API_KEY` – Resend API key for emails
 - `BUSINESS_EMAIL` (optional, default: architektundmeister@gmail.com)
 - `FROM_EMAIL` (optional, default: onboarding@resend.dev)
+- `FROM_NAME` (optional) – Absender-Anzeigename, z. B. ARCHITEKTUNDMEISTER
 - `REPLY_TO_EMAIL` (optional)
 
 ### Database setup (Neon)
