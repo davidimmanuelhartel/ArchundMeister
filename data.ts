@@ -30,6 +30,7 @@ export const PRODUCTS: Product[] = [
     material: 'Echtholz, deutsche Eiche / Esche.',
     dimensions: 'H: 90 cm, Sitzhöhe: 45 cm, B: 48 cm',
     sustainability: 'Lokale Fertigung, kurze Transportwege.',
+    comingSoon: true,
     images: [
       'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1503602642458-2321114458c4?auto=format&fit=crop&w=1200&q=80',
@@ -45,6 +46,7 @@ export const PRODUCTS: Product[] = [
     material: 'Massive Eiche.',
     dimensions: 'B: 40 cm, T: 35 cm, H: 43 cm',
     sustainability: 'Restverwertung aus der Möbelproduktion (Zero Waste Ansatz).',
+    comingSoon: true,
     images: [
       'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=1200&q=80',

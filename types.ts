@@ -8,6 +8,7 @@ export interface Product {
   sustainability: string;
   images: string[];
   tagline: string;
+  comingSoon?: boolean;
 }
 
 export interface OrderForm {
