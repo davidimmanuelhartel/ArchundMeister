@@ -135,7 +135,7 @@ export async function POST(request: Request) {
 
   if (resendKey) {
     try {
-      await fetch('https://api.resend.com/emails', {
+      const customerEmailRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
         body: JSON.stringify({
@@ -146,11 +146,15 @@ export async function POST(request: Request) {
           html: buildCustomerEmailHtml(orderData),
         }),
       });
+      if (!customerEmailRes.ok) {
+        const errBody = await customerEmailRes.text();
+        console.error('Resend customer email failed:', customerEmailRes.status, errBody);
+      }
     } catch (e) {
-      console.error('Customer email failed:', e);
+      console.error('Customer email request failed:', e);
     }
     try {
-      await fetch('https://api.resend.com/emails', {
+      const businessEmailRes = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${resendKey}` },
         body: JSON.stringify({
@@ -161,8 +165,12 @@ export async function POST(request: Request) {
           html: buildBusinessEmailHtml(orderData),
         }),
       });
+      if (!businessEmailRes.ok) {
+        const errBody = await businessEmailRes.text();
+        console.error('Resend business email failed:', businessEmailRes.status, errBody);
+      }
     } catch (e) {
-      console.error('Business email failed:', e);
+      console.error('Business email request failed:', e);
     }
   }
 
