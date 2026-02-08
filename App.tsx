@@ -214,8 +214,8 @@ const Hero = () => {
             initial={{ scale: 1.5, filter: "blur(10px)" }}
             animate={{ scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.5, ease: "circOut" }}
-            src="https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?auto=format&fit=crop&w=1000&q=80"
-            alt="Minimalist Architectural Interior" 
+            src="/images/echtholzbett_1.jpg"
+            alt="Echtholz Bett" 
             className="w-full h-full object-cover opacity-90"
           />
           <div className="absolute -bottom-10 -left-10 bg-white p-6 shadow-xl hidden md:block">
