@@ -291,27 +291,46 @@ const HorizontalPhilosophy = () => {
 };
 
 const ProductListItem: React.FC<{ product: Product, setCursorImage: (img: string | null) => void }> = ({ product, setCursorImage }) => {
-    return (
-        <Link 
-            to={`/product/${product.id}`}
-            className="group block border-t border-gray-300 py-12 md:py-16 relative bg-am-offwhite"
-            onMouseEnter={() => setCursorImage(product.images[0])}
-            onMouseLeave={() => setCursorImage(null)}
+    const isComingSoon = product.comingSoon;
+    
+    const content = (
+        <div className={`group block border-t border-gray-300 py-12 md:py-16 relative bg-am-offwhite ${isComingSoon ? 'opacity-60 cursor-not-allowed' : ''}`}
+            onMouseEnter={() => !isComingSoon && setCursorImage(product.images[0])}
+            onMouseLeave={() => !isComingSoon && setCursorImage(null)}
         >
             <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-baseline relative z-10 pointer-events-none">
-                <h3 className="font-display text-4xl md:text-6xl font-bold group-hover:translate-x-4 transition-transform duration-500 uppercase pointer-events-auto">
-                    {product.name}
-                </h3>
+                <div className="flex items-center gap-4">
+                    <h3 className={`font-display text-4xl md:text-6xl font-bold uppercase pointer-events-auto ${isComingSoon ? '' : 'group-hover:translate-x-4 transition-transform duration-500'}`}>
+                        {product.name}
+                    </h3>
+                    {isComingSoon && (
+                        <span className="font-mono text-xs uppercase tracking-widest text-gray-400 border border-gray-300 px-3 py-1 pointer-events-auto">
+                            Coming Soon
+                        </span>
+                    )}
+                </div>
                 <div className="flex items-center gap-8 mt-4 md:mt-0 pointer-events-auto">
-                     <span className="font-mono text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">
+                     <span className={`font-mono text-sm text-gray-500 hidden md:block ${isComingSoon ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 transition-opacity duration-300'}`}>
                         {product.tagline}
                      </span>
                      <span className="font-mono text-xl font-medium">
                         {product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
                      </span>
-                     <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                     {!isComingSoon && (
+                        <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                     )}
                 </div>
             </div>
+        </div>
+    );
+    
+    if (isComingSoon) {
+        return <div>{content}</div>;
+    }
+    
+    return (
+        <Link to={`/product/${product.id}`} className="block">
+            {content}
         </Link>
     );
 };
