@@ -12,8 +12,8 @@ export const PRODUCTS: Product[] = [
     dimensions: 'B: 180 cm, L: 200 cm, H: 40 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
     images: [
-      '/images/echtholzbett_1.jpg',
       '/images/echtholzbett_2.png',
+      '/images/echtholzbett_1.jpg',
       '/images/echtholzbett_drawing_1.jpg',
       '/images/echtholzbett_drawing_2.jpg',
       '/images/echtholzbett_drawing_3.jpg',

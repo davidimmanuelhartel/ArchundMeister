@@ -214,7 +214,7 @@ const Hero = () => {
             initial={{ scale: 1.5, filter: "blur(10px)" }}
             animate={{ scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.5, ease: "circOut" }}
-            src="/images/echtholzbett_1.jpg"
+            src="/images/echtholzbett_2.png"
             alt="Echtholz Bett" 
             className="w-full h-full object-cover opacity-90"
           />
