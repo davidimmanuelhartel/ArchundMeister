@@ -83,10 +83,10 @@ export async function POST(request: Request) {
   const resendKey = process.env.RESEND_API_KEY;
   const businessEmail = process.env.BUSINESS_EMAIL || 'architektundmeister@gmail.com';
   const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
-  const fromName = process.env.FROM_NAME || '';
+  const fromName = (process.env.FROM_NAME || 'ARCHITEKTUNDMEISTER').trim();
   const replyToEmail = process.env.REPLY_TO_EMAIL || 'architektundmeister@gmail.com';
 
-  const fromHeader = fromName.trim() ? `"${fromName.trim()}" <${fromEmail}>` : fromEmail;
+  const fromHeader = fromName ? `"${fromName}" <${fromEmail}>` : fromEmail;
 
   if (!dbUrl) {
     return new Response(
