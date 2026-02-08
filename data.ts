@@ -12,10 +12,13 @@ export const PRODUCTS: Product[] = [
     dimensions: 'B: 180 cm, L: 200 cm, H: 40 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
     images: [
-      'https://images.unsplash.com/photo-1616594039964-408e4900d6e0?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1617325247661-675ab4b64ae8?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1505693396355-d6f22d366f98?auto=format&fit=crop&w=1200&q=80'
+      '/images/echtholzbett_1.jpg',
+      '/images/echtholzbett_2.png',
+      '/images/echtholzbett_drawing_1.jpg',
+      '/images/echtholzbett_drawing_2.jpg',
+      '/images/echtholzbett_drawing_3.jpg',
+      '/images/echtholzbett_drawing_4.jpg',
+      '/images/echtholzbett_drawing_5.jpg'
     ]
   },
   {
