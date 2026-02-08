@@ -218,10 +218,6 @@ const Hero = () => {
             alt="Echtholz Bett" 
             className="w-full h-full object-cover opacity-90"
           />
-          <div className="absolute -bottom-10 -left-10 bg-white p-6 shadow-xl hidden md:block">
-             <p className="font-mono text-xs uppercase mb-2">Unikat 001</p>
-             <p className="font-display font-bold text-xl">210h Handarbeit</p>
-          </div>
       </motion.div>
     </section>
   );
@@ -411,7 +407,7 @@ const ProductDetail = () => {
             </div>
 
             <div className="container mx-auto px-6 py-24 grid md:grid-cols-12 gap-12">
-                <div className="md:col-span-4 sticky top-24 h-fit">
+                <div className="md:col-span-4 max-md:order-1 md:sticky md:top-24 h-fit bg-am-offwhite md:bg-transparent pb-12 md:pb-0">
                     <div className="border-t border-black pt-6 mb-8">
                         <p className="font-mono text-sm uppercase text-gray-500 mb-2">Preis</p>
                         <p className="font-display text-3xl font-bold">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
@@ -440,7 +436,7 @@ const ProductDetail = () => {
                     </Link>
                 </div>
 
-                <div className="md:col-span-8 space-y-24">
+                <div className="md:col-span-8 max-md:order-2 space-y-24">
                     <p className="font-display text-3xl md:text-4xl leading-tight font-medium text-gray-900">
                         {product.description}
                     </p>
