@@ -256,7 +256,7 @@ const HorizontalPhilosophy = () => {
                         <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-black pb-2">Fokus</p>
                         <p className="text-lg leading-relaxed">Proportion. Licht. Kontext. Der Entwurf folgt keinen Trends, sondern architektonischen Prinzipien.</p>
                     </div>
-                    <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=800&q=80" className="w-full h-48 object-cover grayscale" alt="Architektur Skizze" />
+                    <img src="/images/background_image.jpg" className="w-full h-48 object-cover grayscale" alt="Architektur Skizze" />
                 </div>
             </div>
   
