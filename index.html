@@ -52,6 +52,17 @@
         background-color: #111111;
         color: #ffffff;
       }
+
+      /* Respect OS-level reduced motion for plain CSS transitions/animations
+         (Framer Motion animations are handled separately via MotionConfig) */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
     </style>
 </head>
   <body class="bg-am-offwhite text-am-black font-sans">
