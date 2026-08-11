@@ -4,7 +4,7 @@ import { HashRouter, Routes, Route, useLocation, useNavigate } from 'react-route
 import { Menu, X, ArrowRight, ArrowUpRight, CheckCircle } from 'lucide-react';
 import { PRODUCTS, LEGAL_TEXTS } from './data';
 import { Product, OrderForm } from './types';
-import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue, MotionConfig } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
 
 // --- Utilities ---
 
@@ -245,7 +245,7 @@ const HorizontalPhilosophy = () => {
             
             {/* Intro Card */}
             <div className="w-[85vw] md:w-[40vw] flex flex-col justify-center">
-                <h2 className="font-display text-big font-bold leading-none tracking-tighter mb-8">DAS<br/>KONZEPT</h2>
+                <h2 className="font-display text-big font-bold leading-none mb-8">DAS<br/>KONZEPT</h2>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">
                     In einer Welt der Massenproduktion kehren wir zurück zum Ursprung.
                     Die Synthese zweier Disziplinen.
@@ -255,14 +255,14 @@ const HorizontalPhilosophy = () => {
 
             {/* Architekt Card */}
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
-                <h3 className="font-display text-5xl md:text-7xl font-bold tracking-tighter mb-8">ARCHITEKT</h3>
+                <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">ARCHITEKT</h3>
                 <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Fokus</p>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Proportion. Licht. Kontext. Der Entwurf folgt keinen Trends, sondern architektonischen Prinzipien.</p>
             </div>
 
             {/* Meister Card */}
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
-                <h3 className="font-display text-5xl md:text-7xl font-bold tracking-tighter mb-8">MEISTER</h3>
+                <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">MEISTER</h3>
                 <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Handwerk</p>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Materialwissen. Präzision. 10 Jahre Erfahrung. Keine Maschine ersetzt das Auge des Meisters.</p>
             </div>
@@ -294,7 +294,7 @@ const ProductListItem: React.FC<{ product: Product, setCursorImage: (img: string
         >
             <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-baseline relative z-10 pointer-events-none">
                 <div className="flex items-center gap-4">
-                    <h3 className={`font-display text-4xl md:text-6xl font-bold tracking-tighter uppercase pointer-events-auto ${isComingSoon ? '' : 'group-hover:translate-x-4 transition-transform duration-500'}`}>
+                    <h3 className={`font-display text-4xl md:text-6xl font-bold uppercase pointer-events-auto ${isComingSoon ? '' : 'group-hover:translate-x-4 transition-transform duration-500'}`}>
                         {product.name}
                     </h3>
                     {isComingSoon && (
@@ -399,7 +399,7 @@ const ProductDetail = () => {
                 />
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute bottom-12 left-6 md:left-12 text-white">
-                     <h1 className="font-display text-big font-bold leading-none tracking-tighter mb-4 uppercase">{product.name}</h1>
+                     <h1 className="font-display text-big font-bold leading-none mb-4 uppercase">{product.name}</h1>
                      <p className="font-mono text-lg">{product.tagline}</p>
                 </div>
             </div>
@@ -524,7 +524,7 @@ const Checkout = () => {
       <div className="pt-32 pb-20 px-6 bg-white min-h-screen">
         <div className="container mx-auto max-w-5xl grid md:grid-cols-2 gap-16">
            <div>
-              <h1 className="font-display text-6xl font-bold tracking-tighter mb-8 uppercase">CHECKOUT</h1>
+              <h1 className="font-display text-6xl font-bold mb-8 uppercase">CHECKOUT</h1>
               <div className="bg-am-offwhite p-8">
                   <h3 className="font-mono uppercase tracking-widest text-sm mb-4">Bestellübersicht</h3>
                   <div className="flex justify-between items-end border-b border-gray-300 pb-4 mb-4">
@@ -591,7 +591,7 @@ const Footer = () => {
         <footer className="bg-am-black text-white pt-32 pb-12 px-6">
             <div className="container mx-auto">
                 <div className="border-b border-white/20 pb-24 mb-12">
-                    <h2 className="font-display text-[12vw] leading-[0.8] font-bold tracking-tighter mb-8">
+                    <h2 className="font-display text-[12vw] leading-[0.8] font-bold mb-8">
                         LET'S TALK
                     </h2>
                     <div className="grid md:grid-cols-2 gap-12">
@@ -653,7 +653,7 @@ const Confirmation = () => {
             className="max-w-2xl w-full border border-white/20 p-12 relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-white animate-[loading_2s_ease-in-out]" />
-          <h1 className="font-display text-6xl font-bold tracking-tighter mb-6">DANKE.</h1>
+          <h1 className="font-display text-6xl font-bold mb-6">DANKE.</h1>
           <p className="font-mono text-gray-400 mb-4">Ihre Bestellung wurde erfolgreich übermittelt.</p>
           <p className="font-mono text-gray-400 mb-2">Referenznummer: <span className="text-white font-bold">{state.ref}</span></p>
           <p className="font-mono text-sm text-gray-500 mb-8">Eine Bestätigungs-E-Mail wurde an {state.formData.email} gesendet.</p>
@@ -668,7 +668,7 @@ const LegalPage = ({ type }: { type: keyof typeof LEGAL_TEXTS }) => {
     return (
       <div className="pt-32 pb-20 px-6 bg-white min-h-screen">
         <div className="container mx-auto max-w-3xl">
-          <h1 className="font-display text-6xl font-bold tracking-tighter mb-12 uppercase">{data.title}</h1>
+          <h1 className="font-display text-6xl font-bold mb-12 uppercase">{data.title}</h1>
           <div className="prose prose-lg font-sans leading-relaxed">
             {data.content.split('\n').map((line, i) => {
               if (line.trim().startsWith('**')) {
@@ -686,7 +686,7 @@ const LegalPage = ({ type }: { type: keyof typeof LEGAL_TEXTS }) => {
 const Consultation = () => (
     <div className="min-h-screen bg-am-offwhite flex flex-col justify-center px-6 pt-32">
         <div className="container mx-auto">
-             <h1 className="font-display text-huge leading-none tracking-tighter mb-12 font-bold">KONTAKT</h1>
+             <h1 className="font-display text-huge leading-none mb-12 font-bold">KONTAKT</h1>
              <div className="grid md:grid-cols-2 gap-12 border-t border-black pt-12">
                 <div>
                     <p className="font-mono text-xl mb-8">
@@ -754,11 +754,9 @@ const AppContent = () => {
 
 const App: React.FC = () => {
   return (
-    <MotionConfig reducedMotion="user">
-      <HashRouter>
-          <AppContent />
-      </HashRouter>
-    </MotionConfig>
+    <HashRouter>
+        <AppContent />
+    </HashRouter>
   );
 };
 
