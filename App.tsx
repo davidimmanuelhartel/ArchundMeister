@@ -219,13 +219,11 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.8 }}
-                className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs uppercase tracking-wide text-gray-500"
+                className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide text-gray-500"
             >
                 <span>Versand DE · EU · CH</span>
-                <span className="text-gray-300">·</span>
-                <span>14 Tage Rückgaberecht</span>
-                <span className="text-gray-300">·</span>
-                <span>Handgefertigt in Dresden</span>
+                <span className="pl-6 border-l border-gray-300">14 Tage Rückgaberecht</span>
+                <span className="pl-6 border-l border-gray-300">Handgefertigt in Dresden</span>
             </motion.div>
         </div>
       </div>
@@ -262,7 +260,7 @@ const HorizontalPhilosophy = () => {
                 <h2 className="font-display text-big font-bold leading-none mb-8">DAS<br/>KONZEPT</h2>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">
                     In einer Welt der Massenproduktion kehren wir zurück zum Ursprung.
-                    Die Synthese zweier Disziplinen. Jedes Stück soll länger leben als das Holz, aus dem es gemacht ist.
+                    Die Synthese zweier Disziplinen.
                 </p>
                 <ArrowRight className="mt-8 text-white" size={32} />
             </div>
@@ -284,12 +282,15 @@ const HorizontalPhilosophy = () => {
              {/* CTA Card */}
              <div className="w-[85vw] md:w-[40vw] flex flex-col justify-center items-center text-center">
                 <p className="font-display text-4xl mb-8 font-bold">Bereit für Ihr Unikat?</p>
-                <Link 
-                    to="/beratung" 
+                <Link
+                    to="/beratung"
                     className="inline-block px-10 py-5 bg-white text-black border border-white font-display font-bold text-xl uppercase tracking-wide hover:bg-black hover:text-white hover:border-white transition-all duration-300 shadow-lg"
                 >
                     Beratung starten
                 </Link>
+                <p className="mt-6 font-mono text-base leading-relaxed text-gray-400 max-w-xs">
+                    Ein Stück, das länger lebt als die Bäume, aus denen es gefertigt wurde.
+                </p>
             </div>
   
           </motion.div>
