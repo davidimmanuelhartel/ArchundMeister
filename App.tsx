@@ -421,7 +421,10 @@ const ProductDetail = () => {
                 <div className="md:col-span-4 max-md:order-1 md:sticky md:top-24 h-fit bg-am-offwhite md:bg-transparent pb-12 md:pb-0">
                     <div className="border-t border-black pt-6 mb-8">
                         <p className="font-mono text-sm uppercase text-gray-500 mb-2">Preis</p>
-                        <p className="font-display text-3xl font-bold">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
+                        <div className="flex items-baseline gap-2">
+                            <p className="font-display text-3xl font-bold">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
+                            <span className="font-mono text-sm text-gray-400">zzgl. Versandkosten</span>
+                        </div>
                     </div>
                     
                     <div className="space-y-6">
