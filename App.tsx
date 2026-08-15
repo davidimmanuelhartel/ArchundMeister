@@ -218,7 +218,7 @@ const Hero = () => {
 
       <motion.div 
         style={{ y, opacity }}
-        className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[3/4] z-0 -translate-y-1/2 pointer-events-none"
+        className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[41/35] z-0 -translate-y-1/2 pointer-events-none"
       >
           <motion.img 
             initial={{ scale: 1.5, filter: "blur(10px)" }}
@@ -697,8 +697,8 @@ const Consultation = () => (
                         <a href="mailto:architektundmeister@gmail.com" className="block hover:text-gray-600 transition-colors">Mail senden</a>
                     </div>
                 </div>
-                <div className="aspect-video bg-gray-200 relative overflow-hidden">
-                    <img src="/images/echtholzbett_2.png" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-1000" alt="Echtholz Bett" />
+                <div className="relative overflow-hidden">
+                    <img src="/images/echtholzbett_2.png" className="w-full h-auto block grayscale hover:grayscale-0 transition-all duration-1000" alt="Echtholz Bett" />
                     <div className="absolute inset-0 border border-black/5 pointer-events-none"></div>
                 </div>
              </div>
