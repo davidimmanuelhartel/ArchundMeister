@@ -49,22 +49,23 @@ const Link = ({ to, children, className, style, onClick, onMouseEnter, onMouseLe
 
 // --- Components ---
 
-const Header = ({ toggleMenu, isMenuOpen }: { toggleMenu: () => void, isMenuOpen: boolean }) => {
+const Header = ({ toggleMenu, closeMenu, isMenuOpen }: { toggleMenu: () => void, closeMenu: () => void, isMenuOpen: boolean }) => {
   const { scrollY } = useScroll();
   const headerY = useTransform(scrollY, [0, 100], [0, -20]);
-  
+
   return (
-    <motion.header 
+    <motion.header
       style={{ y: headerY }}
       className="fixed top-0 left-0 w-full z-50 px-6 py-6 md:py-8 flex justify-between items-center mix-blend-difference text-white"
     >
-      <Link to="/" className="font-display font-bold text-xl md:text-2xl tracking-tighter uppercase z-50">
+      <Link to="/" onClick={closeMenu} className="font-display font-bold text-xl md:text-2xl tracking-tighter uppercase z-50">
         Architekt & Meister
       </Link>
 
       <div className="flex items-center gap-4 md:gap-6 z-50">
         <Link
           to="/beratung"
+          onClick={closeMenu}
           className="hidden sm:inline-block border border-current px-4 py-2 font-mono text-xs md:text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
         >
           Beratung starten
@@ -176,7 +177,7 @@ const Hero = () => {
     hidden: { y: "105%" }, 
     visible: {
       y: "0%",
-      transition: { duration: 0.8, ease: [0.6, 0.01, -0.05, 0.95] as const }
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }
     }
   };
 
@@ -440,12 +441,12 @@ const ProductDetail = () => {
                     </p>
 
                     {product.images.slice(1).map((img, idx) => (
-                        <motion.div 
+                        <motion.div
                             key={idx}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 28, scale: 0.97 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true, margin: "-10%" }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ type: "spring", bounce: 0, duration: 0.7 }}
                         >
                             <img src={img} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl" alt={`Detail ${idx}`} />
                         </motion.div>
@@ -718,7 +719,7 @@ const AppContent = () => {
 
   return (
     <div className="bg-am-offwhite min-h-screen selection:bg-am-black selection:text-white">
-        <Header toggleMenu={() => setIsMenuOpen(!isMenuOpen)} isMenuOpen={isMenuOpen} />
+        <Header toggleMenu={() => setIsMenuOpen(!isMenuOpen)} closeMenu={() => setIsMenuOpen(false)} isMenuOpen={isMenuOpen} />
         <FullscreenMenu isOpen={isMenuOpen} close={() => setIsMenuOpen(false)} />
         
         <main>
