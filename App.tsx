@@ -224,8 +224,8 @@ const Hero = () => {
             initial={{ scale: 1.5, filter: "blur(10px)" }}
             animate={{ scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.5, ease: "circOut" }}
-            src="/images/echtholzbett_2.png"
-            alt="Echtholz Bett" 
+            src="/images/echtholzbett_2_hero.png"
+            alt="Echtholz Bett"
             className="w-full h-full object-cover opacity-90"
           />
       </motion.div>
@@ -698,7 +698,7 @@ const Consultation = () => (
                     </div>
                 </div>
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Atelier" />
+                    <img src="/images/echtholzbett_2.png" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-1000" alt="Echtholz Bett" />
                     <div className="absolute inset-0 border border-black/5 pointer-events-none"></div>
                 </div>
              </div>
