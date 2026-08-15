@@ -440,7 +440,7 @@ const ProductDetail = () => {
                         {product.description}
                     </p>
 
-                    {product.images.slice(1).map((img, idx) => (
+                    {product.images.map((img, idx) => (
                         <motion.div
                             key={idx}
                             initial={{ opacity: 0, y: 28, scale: 0.97 }}
