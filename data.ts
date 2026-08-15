@@ -97,7 +97,9 @@ Alle Preise inkl. gesetzlicher Umsatzsteuer. Vorkasse bei Produktionsbeginn.
 Fertigungszeit ca. 4–6 Wochen nach Zahlungseingang.
 
 **§6 Widerrufsrecht**
-Verbrauchern steht grundsätzlich ein Widerrufsrecht von 14 Tagen zu (außer bei Maßanfertigung).`
+Da alle Produkte ausschließlich individuell auf Bestellung nach den Vorgaben bzw. Wünschen des Kunden gefertigt werden, besteht gemäß § 312g Abs. 2 Nr. 1 BGB kein gesetzliches Widerrufsrecht. Hierauf weisen wir vor Vertragsschluss ausdrücklich hin.
+
+Unabhängig davon räumen wir Ihnen freiwillig die Möglichkeit ein, Ihre Bestellung bis zum Beginn der Fertigung kostenfrei zu stornieren. Kontaktieren Sie uns hierfür unter architektundmeister@gmail.com. Nach Beginn der Fertigung ist eine Stornierung nicht mehr möglich.`
   },
   privacy: {
     title: "Datenschutz",
@@ -105,22 +107,34 @@ Verbrauchern steht grundsätzlich ein Widerrufsrecht von 14 Tagen zu (außer bei
 **Datenschutzerklärung**
 
 **Verantwortlicher**
-Lukas Westphalen, Buchenstraße 20, 01097 Dresden.
+Lukas Westphalen, Buchenstraße 20, 01097 Dresden, architektundmeister@gmail.com.
 
 **Erhobene Daten**
-Wir erheben nur Daten, die für die Vertragsabwicklung oder den technischen Betrieb der Website notwendig sind (IP-Adresse, Bestelldaten).
+Wir erheben nur Daten, die für die Vertragsabwicklung oder den technischen Betrieb der Website notwendig sind: bei Bestellungen Name, E-Mail-Adresse, Telefonnummer und Lieferadresse; beim Website-Besuch technisch bedingt die IP-Adresse.
+
+**Hosting**
+Diese Website wird bei Vercel Inc. gehostet. Beim Aufruf der Seite wird Ihre IP-Adresse technisch bedingt an Vercel übermittelt.
+
+**Schriftarten (Google Fonts)**
+Wir binden Schriftarten von Google Fonts ein, die beim Laden der Seite von Servern der Google LLC geladen werden. Dabei wird Ihre IP-Adresse an Google übertragen.
+
+**Bestellabwicklung**
+Bei einer Bestellung werden Ihre Angaben (Name, E-Mail, Telefon, Lieferadresse, Bestelldetails) in einer Datenbank bei Neon gespeichert und die Bestellbestätigung per E-Mail über den Dienstleister Resend versendet.
 
 **Weitergabe**
-Daten werden nur an Versanddienstleister weitergegeben.`
+Eine Weitergabe Ihrer Daten erfolgt nur an die oben genannten technischen Dienstleister sowie an Versanddienstleister zur Zustellung Ihrer Bestellung.
+
+**Ihre Rechte**
+Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten sowie ein Beschwerderecht bei der zuständigen Datenschutzaufsichtsbehörde.`
   },
   withdrawal: {
     title: "Widerrufsbelehrung",
     content: `
-**Widerrufsrecht**
-Sie haben das Recht, binnen 14 Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.
+**Kein gesetzliches Widerrufsrecht bei Maßanfertigungen**
+Da es sich bei unseren Produkten um Waren handelt, die nicht vorgefertigt sind und für deren Herstellung eine individuelle Auswahl oder Bestimmung durch Sie maßgeblich ist bzw. die eindeutig auf Ihre persönlichen Bedürfnisse zugeschnitten sind, besteht gemäß § 312g Abs. 2 Nr. 1 BGB kein gesetzliches Widerrufsrecht.
 
-**Folgen des Widerrufs**
-Wir erstatten Ihnen alle Zahlungen binnen 14 Tagen. Rücksendekosten trägt der Käufer.`
+**Freiwillige Stornomöglichkeit**
+Wir räumen Ihnen dennoch die Möglichkeit ein, Ihre Bestellung bis zum Beginn der Fertigung kostenfrei zu stornieren. Kontaktieren Sie uns hierfür unter architektundmeister@gmail.com. Nach Beginn der Fertigung ist eine Stornierung nicht mehr möglich.`
   },
   shipping: {
     title: "Versand & Retouren",
@@ -129,6 +143,6 @@ Wir erstatten Ihnen alle Zahlungen binnen 14 Tagen. Rücksendekosten trägt der 
 Wir liefern nach Deutschland, EU und in die Schweiz. Kosten werden im Checkout berechnet.
 
 **Retouren**
-14 Tage Rückgaberecht für Standardware. Maßanfertigungen sind vom Umtausch ausgeschlossen.`
+Da alle unsere Produkte individuell auf Bestellung gefertigt werden, ist ein Widerrufs- oder Rückgaberecht gemäß § 312g Abs. 2 Nr. 1 BGB gesetzlich ausgeschlossen. Ein Umtausch ist daher grundsätzlich nicht möglich. Bei Mängeln oder Transportschäden gelten selbstverständlich die gesetzlichen Gewährleistungsrechte. Eine kostenfreie Stornierung ist bis zum Beginn der Fertigung möglich (siehe AGB §6).`
   }
 };
