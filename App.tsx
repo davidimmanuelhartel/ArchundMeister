@@ -257,7 +257,7 @@ const HorizontalPhilosophy = () => {
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
                 <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">ARCHITEKT</h3>
                 <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Fokus</p>
-                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Proportion. Licht. Kontext. Der Entwurf folgt keinen Trends, sondern architektonischen Prinzipien.</p>
+                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Proportion. Silhouette. Balance. Der Entwurf folgt keinen Trends, sondern architektonischen Prinzipien.</p>
             </div>
 
             {/* Meister Card */}
