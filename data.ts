@@ -9,7 +9,7 @@ export const PRODUCTS: Product[] = [
     tagline: 'Schlafende Architektur.',
     description: 'Zeitloses, nachhaltiges Bett aus deutschem Echtholz – individuell handgefertigt. Die Konstruktion verzichtet auf unnötige Metallverbindungen und setzt auf klassische Holzverbindungen.',
     material: 'Echtholz, deutsche Eiche, geölt.',
-    dimensions: 'B: 180 cm, L: 200 cm, H: 40 cm',
+    dimensions: 'B: 120–180 cm, L: 200 cm, H: 20 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
     images: [
       '/images/echtholzbett_2.png',
