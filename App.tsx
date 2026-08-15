@@ -205,7 +205,7 @@ const Hero = () => {
                 ))}
             </motion.h1>
             
-            <motion.p 
+            <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.8 }}
@@ -214,6 +214,19 @@ const Hero = () => {
                 Keine Produktion ohne Entwurf. Kein Entwurf ohne Handwerk.
                 Jedes Stück entsteht in der Begegnung von Architekturdenken und meisterlicher Schreinerkunst.
             </motion.p>
+
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5, duration: 0.8 }}
+                className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs uppercase tracking-wide text-gray-500"
+            >
+                <span>Versand DE · EU · CH</span>
+                <span className="text-gray-300">·</span>
+                <span>14 Tage Rückgaberecht</span>
+                <span className="text-gray-300">·</span>
+                <span>Handgefertigt in Dresden</span>
+            </motion.div>
         </div>
       </div>
 
@@ -249,7 +262,7 @@ const HorizontalPhilosophy = () => {
                 <h2 className="font-display text-big font-bold leading-none mb-8">DAS<br/>KONZEPT</h2>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">
                     In einer Welt der Massenproduktion kehren wir zurück zum Ursprung.
-                    Die Synthese zweier Disziplinen.
+                    Die Synthese zweier Disziplinen. Jedes Stück soll länger leben als das Holz, aus dem es gemacht ist.
                 </p>
                 <ArrowRight className="mt-8 text-white" size={32} />
             </div>
@@ -362,7 +375,7 @@ const ProductList = () => {
                 }}
             >
                 {cursorImage && (
-                    <img src={cursorImage} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={cursorImage} alt="" className="w-full h-full object-cover" />
                 )}
             </motion.div>
 
@@ -413,6 +426,16 @@ const ProductDetail = () => {
                     </div>
                     
                     <div className="space-y-6">
+                        {product.features && product.features.length > 0 && (
+                            <ul className="space-y-2">
+                                {product.features.map((feature, idx) => (
+                                    <li key={idx} className="flex items-center gap-2 font-mono text-sm text-gray-700">
+                                        <CheckCircle size={16} className="text-black shrink-0" />
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                         <div>
                             <p className="font-mono text-sm uppercase text-gray-500 mb-1">Material</p>
                             <p className="font-sans text-lg font-normal">{product.material}</p>
@@ -448,7 +471,7 @@ const ProductDetail = () => {
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ type: "spring", bounce: 0, duration: 0.7 }}
                         >
-                            <img src={img} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl" alt={`Detail ${idx}`} />
+                            <img src={img} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl" alt={`${product.name} – Ansicht ${idx + 1}`} />
                         </motion.div>
                     ))}
                 </div>
@@ -532,7 +555,7 @@ const Checkout = () => {
                       <span className="font-display text-2xl font-bold">{product.name}</span>
                       <span className="font-mono">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</span>
                   </div>
-                  <img src={product.images[0]} className="w-full h-64 object-cover grayscale" alt="Product Preview"/>
+                  <img src={product.images[0]} className="w-full h-64 object-cover grayscale" alt={product.name} />
               </div>
            </div>
   

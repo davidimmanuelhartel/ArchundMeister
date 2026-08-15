@@ -9,6 +9,7 @@ export interface Product {
   images: string[];
   tagline: string;
   comingSoon?: boolean;
+  features?: string[];
 }
 
 export interface OrderForm {
