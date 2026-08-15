@@ -11,7 +11,7 @@ export const PRODUCTS: Product[] = [
     material: 'Echtholz, deutsche Fichte (Eiche optional gegen Aufpreis), geölt.',
     dimensions: 'B: 120–180 cm, L: 200 cm, H: 20 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
-    features: ['Massivholz: Fichte / Eiche', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
+    features: ['Massivholz: deutsche Fichte / Eiche', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
     images: [
       '/images/echtholzbett_2.png',
       '/images/echtholzbett_1.jpg',
