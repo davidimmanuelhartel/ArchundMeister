@@ -91,7 +91,7 @@ Vertragspartner: Einzelunternehmen Lukas Westphalen.
 Die Produktdarstellungen sind unverbindlich. Mit Absenden der Bestellung gibst du ein verbindliches Angebot ab.
 
 **§4 Preise & Zahlungsbedingungen**
-Alle Preise inkl. gesetzlicher Umsatzsteuer. Vorkasse bei Produktionsbeginn.
+Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen (Kleinunternehmerregelung). Vorkasse bei Produktionsbeginn.
 
 **§5 Lieferbedingungen**
 Fertigungszeit ca. 4–6 Wochen nach Zahlungseingang.
