@@ -7,10 +7,11 @@ export const PRODUCTS: Product[] = [
     name: 'Echtholz Bett',
     price: 1399.00,
     tagline: 'Schlafende Architektur.',
-    description: 'Zeitloses, nachhaltiges Bett aus deutschem Echtholz – individuell handgefertigt. Die Konstruktion verzichtet auf unnötige Metallverbindungen und setzt auf klassische Holzverbindungen.',
+    description: 'Zeitloses, nachhaltiges Bett aus deutschem Echtholz – individuell handgefertigt. Die Konstruktion verzichtet auf unnötige Metallverbindungen und setzt auf klassische Holzverbindungen. Ein Stück, das länger lebt als das Holz, aus dem es gemacht ist.',
     material: 'Echtholz, deutsche Eiche, geölt.',
     dimensions: 'B: 120–180 cm, L: 200 cm, H: 20 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
+    features: ['Massivholz aus deutscher Eiche', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
     images: [
       '/images/echtholzbett_2.png',
       '/images/echtholzbett_1.jpg',
