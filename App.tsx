@@ -216,17 +216,17 @@ const Hero = () => {
         </div>
       </div>
 
-      <motion.div 
+      <motion.div
         style={{ y, opacity }}
-        className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[41/35] z-0 -translate-y-1/2 pointer-events-none"
+        className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[3/2] z-0 -translate-y-1/2 pointer-events-none"
       >
-          <motion.img 
+          <motion.img
             initial={{ scale: 1.5, filter: "blur(10px)" }}
             animate={{ scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.5, ease: "circOut" }}
-            src="/images/echtholzbett_2_hero.png"
+            src="/images/echtholzbett_2.png"
             alt="Echtholz Bett"
-            className="w-full h-full object-cover opacity-90"
+            className="w-full h-full object-contain opacity-90"
           />
       </motion.div>
     </section>
