@@ -215,16 +215,14 @@ const Hero = () => {
                 Jedes Stück entsteht in der Begegnung von Architekturdenken und meisterlicher Schreinerkunst.
             </motion.p>
 
-            <motion.div
+            <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.8 }}
-                className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wide text-gray-500"
+                className="mt-4 font-sans font-normal text-sm max-w-md leading-relaxed text-gray-500"
             >
-                <span>Versand DE · EU · CH</span>
-                <span className="pl-6 border-l border-gray-300">14 Tage Rückgaberecht</span>
-                <span className="pl-6 border-l border-gray-300">Handgefertigt in Dresden</span>
-            </motion.div>
+                Wir liefern nach Deutschland, in die EU und in die Schweiz, gewähren 14 Tage Rückgaberecht und fertigen jedes Stück in Dresden.
+            </motion.p>
         </div>
       </div>
 
@@ -460,9 +458,13 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="md:col-span-8 max-md:order-2 space-y-24">
-                    <p className="font-display text-3xl md:text-4xl leading-tight font-medium text-gray-900">
-                        {product.description}
-                    </p>
+                    <div className="space-y-6">
+                        {product.description.split('\n\n').map((paragraph, idx) => (
+                            <p key={idx} className="font-display text-3xl md:text-4xl leading-tight font-medium text-gray-900">
+                                {paragraph}
+                            </p>
+                        ))}
+                    </div>
 
                     {product.images.map((img, idx) => (
                         <motion.div
