@@ -25,16 +25,19 @@ const PageTransition = ({ children, className }: { children?: React.ReactNode, c
   </motion.div>
 );
 
-// Custom Link component to bypass strict blob/iframe security restrictions on href navigation
+// Custom Link component: renders a real href (HashRouter target) so right-click/middle-click/
+// ctrl+click and crawlers work, but intercepts plain left-clicks for client-side navigation.
 const Link = ({ to, children, className, style, onClick, onMouseEnter, onMouseLeave }: any) => {
     const navigate = useNavigate();
     return (
         <motion.a
+            href={`#${to}`}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.15 }}
             className={`cursor-pointer ${className || ''}`}
             style={style}
             onClick={(e) => {
+                if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
                 e.preventDefault();
                 if (onClick) onClick(e);
                 navigate(to);
@@ -64,18 +67,23 @@ const Header = ({ toggleMenu, closeMenu, isMenuOpen }: { toggleMenu: () => void,
 
       <div className="flex items-center gap-4 md:gap-6 z-50">
         <Link
-          to="/beratung"
+          to="/shop"
           onClick={closeMenu}
           className="hidden sm:inline-block border border-current px-4 py-2 font-mono text-xs md:text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
         >
-          Beratung starten
+          Kollektion entdecken
         </Link>
 
-        <motion.button whileTap={{ scale: 0.9 }} onClick={toggleMenu} className="group flex items-center gap-3 focus:outline-none">
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
+          className="group flex items-center gap-3 focus:outline-none"
+        >
           <span className="hidden md:block text-sm font-mono uppercase tracking-widest group-hover:tracking-[0.2em] group-hover:text-gray-300 transition-all duration-300">
             {isMenuOpen ? 'Close' : 'Menu'}
           </span>
-          <div className="relative w-8 h-8 flex items-center justify-center">
+          <div className="relative w-11 h-11 flex items-center justify-center">
               <AnimatePresence mode='wait'>
                   {isMenuOpen ? (
                       <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
@@ -131,7 +139,7 @@ const FullscreenMenu = ({ isOpen, close }: { isOpen: boolean, close: () => void 
                         { name: "Home", path: "/" },
                         { name: "Kollektion", path: "/shop" },
                         { name: "Beratung", path: "/beratung" },
-                        { name: "Kontakt", path: "/beratung" }
+                        { name: "Kontakt", path: "/kontakt" }
                     ].map((item, i) => (
                         <motion.div
                             key={item.name}
@@ -234,7 +242,7 @@ const Hero = () => {
             initial={{ scale: 1.5, filter: "blur(10px)" }}
             animate={{ scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1.5, ease: "circOut" }}
-            src="/images/echtholzbett_2.png"
+            src="/images/echtholzbett_2.jpg"
             alt="Echtholz Bett"
             className="w-full h-full object-cover opacity-90"
           />
@@ -728,7 +736,7 @@ const Consultation = () => (
                     </div>
                 </div>
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
-                    <img src="/images/echtholzbett_2.png" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Echtholz Bett" />
+                    <img src="/images/echtholzbett_2.jpg" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Echtholz Bett" />
                     <div className="absolute inset-0 border border-black/5 pointer-events-none"></div>
                 </div>
              </div>
@@ -766,6 +774,7 @@ const AppContent = () => {
                     <Route path="/checkout" element={<PageTransition><Checkout /></PageTransition>} />
                     <Route path="/confirmation" element={<PageTransition><Confirmation /></PageTransition>} />
                     <Route path="/beratung" element={<PageTransition><Consultation /></PageTransition>} />
+                    <Route path="/kontakt" element={<PageTransition><Consultation /></PageTransition>} />
                     
                     {/* Legal Routes */}
                     <Route path="/impressum" element={<PageTransition><LegalPage type="imprint" /></PageTransition>} />

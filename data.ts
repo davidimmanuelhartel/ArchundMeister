@@ -13,7 +13,7 @@ export const PRODUCTS: Product[] = [
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
     features: ['Massivholz: deutsche Fichte / Eiche', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
     images: [
-      '/images/echtholzbett_2.png',
+      '/images/echtholzbett_2.jpg',
       '/images/echtholzbett_1.jpg',
       '/images/echtholzbett_drawing_1.jpg',
       '/images/echtholzbett_drawing_2.jpg',
