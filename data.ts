@@ -97,9 +97,11 @@ Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen (Kleinunter
 Fertigungszeit ca. 4–6 Wochen nach Zahlungseingang.
 
 **§6 Widerrufsrecht**
-Da alle Produkte ausschließlich individuell auf Bestellung nach den Vorgaben bzw. Wünschen des Kunden gefertigt werden, besteht gemäß § 312g Abs. 2 Nr. 1 BGB kein gesetzliches Widerrufsrecht. Hierauf weisen wir vor Vertragsschluss ausdrücklich hin.
+Für die in unserem Onlineshop als Standardprodukt angebotenen Artikel (aktuell: das Modell „Echtholz Bett") steht Ihnen als Verbraucher ein gesetzliches Widerrufsrecht zu. Die Einzelheiten ergeben sich aus unserer Widerrufsbelehrung.
 
-Unabhängig davon räumen wir Ihnen freiwillig die Möglichkeit ein, Ihre Bestellung bis zum Beginn der Fertigung kostenfrei zu stornieren. Kontaktieren Sie uns hierfür unter architektundmeister@gmail.com. Nach Beginn der Fertigung ist eine Stornierung nicht mehr möglich.`
+Für Sonderanfertigungen, die wir auf Ihre ausdrücklichen individuellen Vorgaben hin fertigen (z. B. abweichende Maße, Holzart oder sonstige individuelle Anpassungen außerhalb des Standardangebots), besteht gemäß § 312g Abs. 2 Nr. 1 BGB kein gesetzliches Widerrufsrecht, da diese Waren eindeutig auf Ihre persönlichen Bedürfnisse zugeschnitten sind. Hierauf weisen wir Sie vor Abschluss eines solchen Vertrags gesondert und ausdrücklich hin.
+
+Unabhängig vom Widerrufsrecht räumen wir Ihnen bei allen Bestellungen zusätzlich die Möglichkeit ein, bis zum Beginn der Fertigung jederzeit kostenfrei zu stornieren. Kontaktieren Sie uns hierfür unter architektundmeister@gmail.com.`
   },
   privacy: {
     title: "Datenschutz",
@@ -130,11 +132,56 @@ Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der
   withdrawal: {
     title: "Widerrufsbelehrung",
     content: `
-**Kein gesetzliches Widerrufsrecht bei Maßanfertigungen**
-Da es sich bei unseren Produkten um Waren handelt, die nicht vorgefertigt sind und für deren Herstellung eine individuelle Auswahl oder Bestimmung durch Sie maßgeblich ist bzw. die eindeutig auf Ihre persönlichen Bedürfnisse zugeschnitten sind, besteht gemäß § 312g Abs. 2 Nr. 1 BGB kein gesetzliches Widerrufsrecht.
+**Geltungsbereich**
+Diese Widerrufsbelehrung gilt für den Kauf unserer als Standardprodukt angebotenen Artikel (aktuell: das Modell „Echtholz Bett"). Für Sonderanfertigungen, die auf Ihre ausdrücklichen individuellen Vorgaben hin gefertigt werden, besteht gemäß § 312g Abs. 2 Nr. 1 BGB kein Widerrufsrecht; hierauf weisen wir Sie in diesem Fall vor Vertragsschluss gesondert hin.
+
+**Widerrufsrecht**
+Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.
+
+Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag, an dem Sie oder ein von Ihnen benannter Dritter, der nicht der Beförderer ist, die Waren in Besitz genommen haben bzw. hat.
+
+Um Ihr Widerrufsrecht auszuüben, müssen Sie uns
+
+Architekt & Meister
+Lukas Westphalen
+Buchenstraße 20, 01097 Dresden, Deutschland
+E-Mail: architektundmeister@gmail.com
+Telefon: +49 151 22807682
+
+mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter Brief oder eine E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren. Sie können dafür das untenstehende Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist.
+
+Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.
+
+**Folgen des Widerrufs**
+Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben, einschließlich der Lieferkosten (mit Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie eine andere Art der Lieferung als die von uns angebotene, günstigste Standardlieferung gewählt haben), unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über Ihren Widerruf dieses Vertrags bei uns eingegangen ist. Für diese Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion eingesetzt haben, es sei denn, mit Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser Rückzahlung Entgelte berechnet. Wir können die Rückzahlung verweigern, bis wir die Waren wieder zurückerhalten haben oder bis Sie den Nachweis erbracht haben, dass Sie die Waren zurückgesandt haben, je nachdem, welches der frühere Zeitpunkt ist.
+
+Sie haben die Waren unverzüglich und in jedem Fall spätestens binnen vierzehn Tagen ab dem Tag, an dem Sie uns über den Widerruf dieses Vertrags unterrichten, an uns zurückzusenden oder zu übergeben. Die Frist ist gewahrt, wenn Sie die Waren vor Ablauf der Frist von vierzehn Tagen absenden.
+
+Sie tragen die unmittelbaren Kosten der Rücksendung der Waren. Da es sich um ein sperriges Möbelstück handelt, können diese Kosten erheblich sein; bitte nehmen Sie vor einer Rücksendung Kontakt mit uns auf, damit wir die Rücksendung gemeinsam mit Ihnen organisieren können.
+
+Sie müssen für einen etwaigen Wertverlust der Waren nur aufkommen, wenn dieser Wertverlust auf einen zur Prüfung der Beschaffenheit, Eigenschaften und Funktionsweise der Waren nicht notwendigen Umgang mit ihnen zurückzuführen ist.
 
 **Freiwillige Stornomöglichkeit**
-Wir räumen Ihnen dennoch die Möglichkeit ein, Ihre Bestellung bis zum Beginn der Fertigung kostenfrei zu stornieren. Kontaktieren Sie uns hierfür unter architektundmeister@gmail.com. Nach Beginn der Fertigung ist eine Stornierung nicht mehr möglich.`
+Unabhängig vom Widerrufsrecht räumen wir Ihnen zusätzlich die Möglichkeit ein, Ihre Bestellung bis zum Beginn der Fertigung jederzeit kostenfrei zu stornieren. Kontaktieren Sie uns hierfür unter architektundmeister@gmail.com.
+
+**Muster-Widerrufsformular**
+(Wenn Sie den Vertrag widerrufen wollen, füllen Sie bitte dieses Formular aus und senden Sie es zurück.)
+
+An Architekt & Meister, Lukas Westphalen, Buchenstraße 20, 01097 Dresden, E-Mail: architektundmeister@gmail.com:
+
+Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen Vertrag über den Kauf der folgenden Waren (*):
+
+Bestellt am (*)/erhalten am (*):
+
+Name des/der Verbraucher(s):
+
+Anschrift des/der Verbraucher(s):
+
+Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier):
+
+Datum:
+
+(*) Unzutreffendes streichen.`
   },
   shipping: {
     title: "Versand & Retouren",
@@ -143,6 +190,8 @@ Wir räumen Ihnen dennoch die Möglichkeit ein, Ihre Bestellung bis zum Beginn d
 Wir liefern nach Deutschland, EU und in die Schweiz. Kosten werden im Checkout berechnet.
 
 **Retouren**
-Da alle unsere Produkte individuell auf Bestellung gefertigt werden, ist ein Widerrufs- oder Rückgaberecht gemäß § 312g Abs. 2 Nr. 1 BGB gesetzlich ausgeschlossen. Ein Umtausch ist daher grundsätzlich nicht möglich. Bei Mängeln oder Transportschäden gelten selbstverständlich die gesetzlichen Gewährleistungsrechte. Eine kostenfreie Stornierung ist bis zum Beginn der Fertigung möglich (siehe AGB §6).`
+Für unsere Standardprodukte (aktuell: das Modell „Echtholz Bett") steht Ihnen ein gesetzliches 14-tägiges Widerrufsrecht zu, siehe unsere Widerrufsbelehrung. Die unmittelbaren Kosten der Rücksendung tragen Sie als Kunde; da es sich um ein sperriges Möbelstück handelt, nehmen Sie hierfür bitte vorab Kontakt mit uns auf.
+
+Für Sonderanfertigungen nach Ihren individuellen Vorgaben ist ein Widerrufsrecht gemäß § 312g Abs. 2 Nr. 1 BGB gesetzlich ausgeschlossen; hierauf weisen wir Sie in diesem Fall vor Vertragsschluss gesondert hin. Bei Mängeln oder Transportschäden gelten in jedem Fall die gesetzlichen Gewährleistungsrechte. Eine kostenfreie Stornierung ist bei allen Bestellungen bis zum Beginn der Fertigung möglich (siehe AGB §6).`
   }
 };
