@@ -5,7 +5,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'bett-001',
     name: 'Echtholz Bett',
-    price: 1799.00,
+    price: 1699.00,
     tagline: 'Schlafende Architektur.',
     description: 'Ein Bett, das länger lebt als die Bäume, aus denen es gefertigt wurde.\n\nIn Handarbeit aus deutschem Echtholz gefügt, mit klassischen Holzverbindungen statt Metall – zeitlos in Konstruktion wie Erscheinung.',
     material: 'Echtholz, deutsche Fichte (Eiche optional gegen Aufpreis), geölt.',
