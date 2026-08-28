@@ -35,3 +35,6 @@ dist-ssr
 .supabase
 .vercel
 .env*.local
+
+# Claude Code local tooling
+.claude/

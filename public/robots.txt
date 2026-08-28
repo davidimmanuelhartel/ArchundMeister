@@ -1,0 +1,45 @@
+# robots.txt – architektundmeister.de
+
+# Klassische Suchmaschinen
+User-agent: *
+Allow: /
+Disallow: /checkout
+Disallow: /confirmation
+Disallow: /api/
+
+# KI-Suche und Antwortmaschinen ausdruecklich erlaubt,
+# damit die Seite in AI-Antworten zitiert werden kann.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://architektundmeister.de/sitemap.xml

@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { HashRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ArrowRight, ArrowUpRight, CheckCircle } from 'lucide-react';
 import { PRODUCTS, LEGAL_TEXTS } from './data';
+import { useSeo } from './useSeo';
 import { Product, OrderForm } from './types';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
 
@@ -25,13 +26,13 @@ const PageTransition = ({ children, className }: { children?: React.ReactNode, c
   </motion.div>
 );
 
-// Custom Link component: renders a real href (HashRouter target) so right-click/middle-click/
+// Custom Link component: renders a real, crawlable href so right-click/middle-click/
 // ctrl+click and crawlers work, but intercepts plain left-clicks for client-side navigation.
 const Link = ({ to, children, className, style, onClick, onMouseEnter, onMouseLeave }: any) => {
     const navigate = useNavigate();
     return (
         <motion.a
-            href={`#${to}`}
+            href={to}
             whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.15 }}
             className={`cursor-pointer ${className || ''}`}
@@ -190,28 +191,36 @@ const Hero = () => {
   };
 
   const words = ["Möbel,", "die", "entworfen", "werden."];
+  const headline = words.join(' ');
 
   return (
     <section className="relative min-h-screen flex items-center px-6 pt-20 overflow-hidden bg-am-offwhite">
       <div className="container mx-auto grid md:grid-cols-12 gap-8 items-center relative z-10">
         <div className="md:col-span-9">
-            <motion.h1 
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="font-display text-huge font-bold leading-[0.95] tracking-tighter uppercase flex flex-wrap gap-x-[0.25em] gap-y-0"
-            >
-                {words.map((word, i) => (
-                    <div key={i} className="overflow-hidden py-6 -my-6 px-6 -mx-6">
-                         <motion.span 
-                            variants={childVariants} 
-                            className={`block ${word === 'entworfen' ? 'italic font-light text-am-black/90' : ''}`}
-                         >
-                            {word}
-                         </motion.span>
-                    </div>
-                ))}
-            </motion.h1>
+            {/* The headline is split into per-word elements for the reveal animation, which
+                strips the spaces between words from the DOM. The sr-only copy keeps the
+                full, correctly spaced sentence available to screen readers and crawlers. */}
+            <h1 className="font-display text-huge font-bold leading-[0.95] tracking-tighter uppercase">
+                <span className="sr-only">{headline}</span>
+                <motion.span
+                    aria-hidden="true"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="flex flex-wrap gap-x-[0.25em] gap-y-0"
+                >
+                    {words.map((word, i) => (
+                        <span key={i} className="block overflow-hidden py-6 -my-6 px-6 -mx-6">
+                             <motion.span
+                                variants={childVariants}
+                                className={`block ${word === 'entworfen' ? 'italic font-light text-am-black/90' : ''}`}
+                             >
+                                {word}
+                             </motion.span>
+                        </span>
+                    ))}
+                </motion.span>
+            </h1>
             
             <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -415,8 +424,9 @@ const ProductDetail = () => {
                     initial={{ scale: 1.2 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 1.5, ease: "easeOut" }}
-                    src={product.images[0]} 
-                    className="w-full h-full object-cover" 
+                    src={product.images[0]}
+                    alt={`${product.name} – ${product.tagline}`}
+                    className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute bottom-12 left-6 md:left-12 text-white">
@@ -744,11 +754,29 @@ const Consultation = () => (
     </div>
 );
 
+const NotFound = () => (
+    <div className="min-h-screen bg-am-offwhite flex flex-col justify-center px-6 pt-32 pb-20">
+        <div className="container mx-auto max-w-3xl">
+            <p className="font-mono text-sm uppercase tracking-widest text-gray-500 mb-4">Fehler 404</p>
+            <h1 className="font-display text-big font-bold leading-none uppercase mb-8">Seite nicht gefunden</h1>
+            <p className="font-sans text-lg text-gray-600 max-w-md mb-12">
+                Die aufgerufene Seite existiert nicht oder wurde verschoben.
+            </p>
+            <div className="flex flex-wrap gap-6 font-display text-xl font-bold uppercase">
+                <Link to="/" className="border-b border-black pb-1 hover:text-gray-600 transition-colors">Zur Startseite</Link>
+                <Link to="/shop" className="border-b border-black pb-1 hover:text-gray-600 transition-colors">Zur Kollektion</Link>
+            </div>
+        </div>
+    </div>
+);
+
 // --- Main Wrapper for Routing Context ---
 
-const AppContent = () => {
+export const AppContent = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useSeo();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -760,7 +788,10 @@ const AppContent = () => {
         <FullscreenMenu isOpen={isMenuOpen} close={() => setIsMenuOpen(false)} />
         
         <main>
-            <AnimatePresence mode='wait'>
+            {/* initial={false} suppresses the enter animation on first paint, so prerendered
+                markup is delivered fully visible (better LCP, and no opacity:0 content for
+                crawlers). Route-to-route transitions still animate normally. */}
+            <AnimatePresence mode='wait' initial={false}>
                 <Routes location={location}>
                     <Route path="/" element={
                         <PageTransition>
@@ -782,6 +813,8 @@ const AppContent = () => {
                     <Route path="/datenschutz" element={<PageTransition><LegalPage type="privacy" /></PageTransition>} />
                     <Route path="/widerruf" element={<PageTransition><LegalPage type="withdrawal" /></PageTransition>} />
                     <Route path="/versand" element={<PageTransition><LegalPage type="shipping" /></PageTransition>} />
+
+                    <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
                 </Routes>
             </AnimatePresence>
         </main>
@@ -793,9 +826,9 @@ const AppContent = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
         <AppContent />
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
