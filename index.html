@@ -19,6 +19,17 @@
     <meta name="twitter:description" content="Massivholzmöbel aus Dresden, entworfen von einem Architekten und gebaut von einem Tischlermeister." />
     <meta name="twitter:image" content="https://architektundmeister.de/images/echtholzbett_2.jpg" />
     <!--seo-end-->
+    <!-- Fail-safe: the prerendered markup carries Framer Motion's initial states
+         (opacity:0 / translateY / scale), which JavaScript then animates away.
+         Without JavaScript those elements would stay invisible, so reset them.
+         Only applies when scripting is off - never interferes with the animations. -->
+    <noscript>
+      <style>
+        [style*="opacity:0"] { opacity: 1 !important; }
+        [style*="translateY"], [style*="scale(1.5)"], [style*="scale(1.2)"] { transform: none !important; }
+        [style*="blur(10px)"] { filter: none !important; }
+      </style>
+    </noscript>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Space Grotesk for that architectural/technical header feel, Inter for body readability -->

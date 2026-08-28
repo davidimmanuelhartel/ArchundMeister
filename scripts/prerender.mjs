@@ -114,13 +114,14 @@ const price = (p) => p.price.toLocaleString('de-DE', { style: 'currency', curren
 const llms = `# Architekt & Meister
 
 > Möbelmanufaktur in Dresden. Massivholzmöbel, entworfen von einem Architekten und
-> gebaut von einem Tischlermeister. Jedes Stück wird auf Bestellung gefertigt –
+> gebaut von einem Schreiner. Jedes Stück wird auf Bestellung gefertigt –
 > es gibt keine Lagerware.
 
 ## Eckdaten
 
 - Standort: Buchenstraße 20, 01097 Dresden, Deutschland
-- Inhaber: Lukas Westphalen (Einzelunternehmen, Kleinunternehmer nach § 19 UStG – es wird keine Umsatzsteuer ausgewiesen)
+- Team: Niclas Schlötke (Architekt, Entwurf) und Lukas Westphalen (Schreiner, Fertigung)
+- Kleinunternehmer nach § 19 UStG – es wird keine Umsatzsteuer ausgewiesen
 - Kontakt: architektundmeister@gmail.com, +49 151 22807682
 - Fertigungszeit: ca. 4–6 Wochen nach Zahlungseingang
 - Lieferung: Deutschland, EU und Schweiz

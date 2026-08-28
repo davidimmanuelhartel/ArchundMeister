@@ -20,7 +20,7 @@ const businessNode: Record<string, unknown> = {
   '@id': `${SITE_URL}/#business`,
   name: SITE_NAME,
   description:
-    'Möbelmanufaktur aus Dresden. Handgefertigte Massivholzmöbel, entworfen von einem Architekten und gebaut von einem Tischlermeister.',
+    'Möbelmanufaktur aus Dresden. Handgefertigte Massivholzmöbel, entworfen von einem Architekten und gebaut von einem Schreiner.',
   url: SITE_URL,
   email: 'architektundmeister@gmail.com',
   telephone: '+4915122807682',
@@ -34,10 +34,10 @@ const businessNode: Record<string, unknown> = {
     addressRegion: 'Sachsen',
     addressCountry: 'DE',
   },
-  founder: {
-    '@type': 'Person',
-    name: 'Lukas Westphalen',
-  },
+  founder: [
+    { '@type': 'Person', name: 'Niclas Schlötke', jobTitle: 'Architekt' },
+    { '@type': 'Person', name: 'Lukas Westphalen', jobTitle: 'Schreiner' },
+  ],
   areaServed: [
     { '@type': 'Country', name: 'Deutschland' },
     { '@type': 'Country', name: 'Österreich' },
@@ -122,7 +122,7 @@ const STATIC_SEO: Record<string, Omit<SeoData, 'canonical' | 'image'> & { image?
   '/': {
     title: 'Architekt & Meister – Handgefertigte Massivholzmöbel aus Dresden',
     description:
-      'Massivholzmöbel aus Dresden, entworfen von einem Architekten und gebaut von einem Tischlermeister. Handgefertigt aus deutscher Fichte oder Eiche, mit klassischen Holzverbindungen statt Metall.',
+      'Massivholzmöbel aus Dresden, entworfen von einem Architekten und gebaut von einem Schreiner. Handgefertigt aus deutscher Fichte oder Eiche, mit klassischen Holzverbindungen statt Metall.',
     jsonLd: [businessNode, websiteNode],
   },
   '/shop': {
