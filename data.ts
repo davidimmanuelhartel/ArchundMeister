@@ -94,14 +94,9 @@ export const FAQ: FaqItem[] = [
       'Wir liefern nach Deutschland, in die EU und in die Schweiz. Die Versandkosten werden gesondert berechnet und kommen zum angegebenen Preis hinzu.',
   },
   {
-    question: 'Wird Umsatzsteuer ausgewiesen?',
-    answer:
-      'Nein. Architekt & Meister ist ein Einzelunternehmen und nutzt die Kleinunternehmerregelung nach § 19 UStG, daher wird keine Umsatzsteuer berechnet oder ausgewiesen.',
-  },
-  {
     question: 'Wer steckt hinter Architekt & Meister?',
     answer:
-      'Architekt & Meister ist eine Ein-Personen-Manufaktur von Lukas Westphalen in Dresden. Der Entwurf folgt architektonischen Prinzipien, die Ausführung meisterlicher Schreinerkunst – daher der Name.',
+      'Hinter Architekt & Meister stehen zwei Personen in Dresden: Niclas Schlötke verantwortet als Architekt den Entwurf, Lukas Westphalen als Schreiner die Fertigung. Daher der Name – der Entwurf folgt architektonischen Prinzipien, die Ausführung meisterlicher Schreinerkunst.',
   },
 ];
 

@@ -14,18 +14,37 @@ const transition = { duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] };
 
 // --- Custom Components ---
 
+// Module scope on purpose: flipped once the first route has mounted in the browser.
+// Stays false during SSR (effects never run there), so every prerendered route is
+// rendered in its visible end state.
+let hasMountedFirstRoute = false;
+
 // Page Transition Wrapper
-const PageTransition = ({ children, className }: { children?: React.ReactNode, className?: string }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    className={className}
-  >
-    {children}
-  </motion.div>
-);
+const PageTransition = ({ children, className }: { children?: React.ReactNode, className?: string }) => {
+  // Skip only the *enter* animation of the very first route, so the prerendered
+  // markup is delivered visible instead of at opacity:0 (that first fade is done
+  // in CSS on <main> instead, see index.css). Every later route change animates
+  // normally. Deliberately scoped to this component rather than passing
+  // initial={false} to AnimatePresence -- that propagates through context and
+  // would also disable the Hero reveal and the scroll-triggered image reveals.
+  const [skipEnter] = useState(() => !hasMountedFirstRoute);
+
+  useEffect(() => {
+    hasMountedFirstRoute = true;
+  }, []);
+
+  return (
+    <motion.div
+      initial={skipEnter ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 // Custom Link component: renders a real, crawlable href so right-click/middle-click/
 // ctrl+click and crawlers work, but intercepts plain left-clicks for client-side navigation.
@@ -832,10 +851,7 @@ export const AppContent = () => {
         <FullscreenMenu isOpen={isMenuOpen} close={() => setIsMenuOpen(false)} />
         
         <main>
-            {/* initial={false} suppresses the enter animation on first paint, so prerendered
-                markup is delivered fully visible (better LCP, and no opacity:0 content for
-                crawlers). Route-to-route transitions still animate normally. */}
-            <AnimatePresence mode='wait' initial={false}>
+            <AnimatePresence mode='wait'>
                 <Routes location={location}>
                     <Route path="/" element={
                         <PageTransition>
