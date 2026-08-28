@@ -18,6 +18,25 @@ body {
   scrollbar-width: none;
 }
 
+/* First-paint fade-in for the prerendered route content.
+   Deliberately CSS and not Framer Motion: the server-rendered HTML is delivered
+   fully visible and fades in on its own, so the content never depends on
+   JavaScript to become visible (crawlers, and no opacity:0 in the raw HTML).
+   Route-to-route transitions are still handled by Framer Motion.
+   The reduced-motion block below shortens this to a no-op. */
+main {
+  animation: am-page-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes am-page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Smooth selection */
 ::selection {
   background-color: #111111;
