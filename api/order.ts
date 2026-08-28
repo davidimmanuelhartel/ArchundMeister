@@ -13,6 +13,7 @@ interface OrderBody {
   street: string;
   houseNumber: string;
   postcode: string;
+  city: string;
   country: string;
   productId: string;
   productName: string;
@@ -32,6 +33,7 @@ function buildCustomerEmailHtml(orderData: OrderBody & { reference: string; form
 <p>Sehr geehrte/r ${orderData.name},</p>
 <p>vielen Dank für Ihre Bestellung bei Architekt & Meister.</p>
 <div class="details"><p class="reference">Referenznummer: ${orderData.reference}</p><p><strong>Produkt:</strong> ${orderData.productName}</p><p><strong>Preis:</strong> ${orderData.formattedPrice}</p></div>
+<div class="details"><p style="margin-top:0"><strong>Lieferadresse</strong></p><p>${orderData.street} ${orderData.houseNumber}<br>${orderData.postcode} ${orderData.city}<br>${orderData.country}</p></div>
 <p>Wir werden Ihre Anfrage schnellstmöglich bearbeiten und uns in Kürze bei Ihnen melden.</p>
 <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung.</p>
 <p>Mit freundlichen Grüßen,<br>Architekt & Meister</p>
@@ -62,7 +64,7 @@ function buildBusinessEmailHtml(orderData: OrderBody & { reference: string; form
 <div class="section"><span class="label">Name:</span> ${orderData.name}</div>
 <div class="section"><span class="label">E-Mail:</span> <a href="mailto:${orderData.email}">${orderData.email}</a></div>${phoneBlock}</div>
 <div class="details"><h2 style="margin-top:0">Lieferadresse</h2>
-<div class="section">${orderData.street} ${orderData.houseNumber}<br>${orderData.postcode} ${orderData.country}</div></div>
+<div class="section">${orderData.street} ${orderData.houseNumber}<br>${orderData.postcode} ${orderData.city}<br>${orderData.country}</div></div>
 <p style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;color:#666;font-size:12px">Bestellt am: ${new Date().toLocaleString('de-DE', { dateStyle: 'long', timeStyle: 'short' })}</p>
 </div>
 </div>
@@ -105,8 +107,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const { name, email, phone, street, houseNumber, postcode, country, productId, productName, productPrice } = body;
-  if (!name || !email || !street || !houseNumber || !postcode || !country || !productId || !productName || productPrice == null) {
+  const { name, email, phone, street, houseNumber, postcode, city, country, productId, productName, productPrice } = body;
+  if (!name || !email || !street || !houseNumber || !postcode || !city || !country || !productId || !productName || productPrice == null) {
     return new Response(
       JSON.stringify({ success: false, error: 'Missing required fields' }),
       { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
@@ -119,8 +121,8 @@ export async function POST(request: Request) {
   let orderId: string;
   try {
     const insertRows = await sql`
-      INSERT INTO orders (reference, customer_name, customer_email, customer_phone, street, house_number, postcode, country, product_id, product_name, product_price, status)
-      VALUES (${ref}, ${name}, ${email}, ${phone ?? null}, ${street}, ${houseNumber}, ${postcode}, ${country}, ${productId}, ${productName}, ${productPrice}, 'pending')
+      INSERT INTO orders (reference, customer_name, customer_email, customer_phone, street, house_number, postcode, city, country, product_id, product_name, product_price, status)
+      VALUES (${ref}, ${name}, ${email}, ${phone ?? null}, ${street}, ${houseNumber}, ${postcode}, ${city}, ${country}, ${productId}, ${productName}, ${productPrice}, 'pending')
       RETURNING id
     `;
     const row = Array.isArray(insertRows) ? insertRows[0] : (insertRows as unknown as { id: string }[])[0];

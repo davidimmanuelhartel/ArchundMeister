@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS orders (
   street TEXT NOT NULL,
   house_number TEXT NOT NULL,
   postcode TEXT NOT NULL,
+  city TEXT NOT NULL,
   country TEXT NOT NULL,
   product_id TEXT NOT NULL,
   product_name TEXT NOT NULL,
