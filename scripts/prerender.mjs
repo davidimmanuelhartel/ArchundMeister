@@ -17,7 +17,7 @@ const DIST = path.resolve('dist');
 const SSR_ENTRY = path.resolve('dist-ssr/entry-server.js');
 
 const template = fs.readFileSync(path.join(DIST, 'index.html'), 'utf-8');
-const { render, getSeo, INDEXABLE_ROUTES, NOINDEX_ROUTES, SITE_URL, PRODUCTS } = await import(
+const { render, getSeo, INDEXABLE_ROUTES, NOINDEX_ROUTES, SITE_URL, PRODUCTS, FAQ } = await import(
   pathToFileURL(SSR_ENTRY).href
 );
 
@@ -139,6 +139,10 @@ ${buyable
   )
   .join('\n')}
 ${upcoming.length ? `\n### In Vorbereitung (noch nicht bestellbar)\n\n${upcoming.map((p) => `- ${p.name}: ${p.tagline} Geplant ab ${price(p)}.`).join('\n')}\n` : ''}
+## Haeufige Fragen
+
+${FAQ.map((f) => `### ${f.question}\n\n${f.answer}`).join('\n\n')}
+
 ## Seiten
 
 - [Startseite](${SITE_URL}/): Konzept, Philosophie und Kollektion

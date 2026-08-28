@@ -1,4 +1,4 @@
-import { PRODUCTS } from './data';
+import { PRODUCTS, FAQ } from './data';
 
 export const SITE_URL = 'https://architektundmeister.de';
 export const SITE_NAME = 'Architekt & Meister';
@@ -95,6 +95,15 @@ function productNode(productId: string): Record<string, unknown>[] {
         seller: { '@id': `${SITE_URL}/#business` },
         hasMerchantReturnPolicy: returnPolicyNode,
       },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}/product/${product.id}#faq`,
+      mainEntity: FAQ.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
     },
     {
       '@type': 'BreadcrumbList',
