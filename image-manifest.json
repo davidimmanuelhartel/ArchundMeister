@@ -1,0 +1,42 @@
+{
+  "/images/background_image.jpg": {
+    "width": 930,
+    "height": 640,
+    "webp": "/images/background_image.webp"
+  },
+  "/images/echtholzbett_1.jpg": {
+    "width": 1536,
+    "height": 1024,
+    "webp": "/images/echtholzbett_1.webp"
+  },
+  "/images/echtholzbett_2.jpg": {
+    "width": 1536,
+    "height": 1024,
+    "webp": "/images/echtholzbett_2.webp"
+  },
+  "/images/echtholzbett_drawing_1.jpg": {
+    "width": 1800,
+    "height": 1273,
+    "webp": "/images/echtholzbett_drawing_1.webp"
+  },
+  "/images/echtholzbett_drawing_2.jpg": {
+    "width": 1800,
+    "height": 1273,
+    "webp": "/images/echtholzbett_drawing_2.webp"
+  },
+  "/images/echtholzbett_drawing_3.jpg": {
+    "width": 1800,
+    "height": 1273,
+    "webp": "/images/echtholzbett_drawing_3.webp"
+  },
+  "/images/echtholzbett_drawing_4.jpg": {
+    "width": 1800,
+    "height": 1273,
+    "webp": "/images/echtholzbett_drawing_4.webp"
+  },
+  "/images/echtholzbett_drawing_5.jpg": {
+    "width": 1800,
+    "height": 1273,
+    "webp": "/images/echtholzbett_drawing_5.webp"
+  }
+}

@@ -17,4 +17,4 @@ export function render(url: string): string {
 }
 
 export { getSeo, INDEXABLE_ROUTES, NOINDEX_ROUTES, SITE_URL } from './seo';
-export { PRODUCTS } from './data';
+export { PRODUCTS, FAQ } from './data';

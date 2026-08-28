@@ -10,6 +10,12 @@ export interface Product {
   tagline: string;
   comingSoon?: boolean;
   features?: string[];
+  care?: string;
+}
+
+export interface FaqItem {
+  question: string;
+  answer: string;
 }
 
 export interface OrderForm {

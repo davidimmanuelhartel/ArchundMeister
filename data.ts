@@ -1,5 +1,5 @@
 
-import { Product } from './types';
+import { Product, FaqItem } from './types';
 
 export const PRODUCTS: Product[] = [
   {
@@ -12,6 +12,7 @@ export const PRODUCTS: Product[] = [
     dimensions: 'B: 120–180 cm, L: 200 cm, H: 20 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
     features: ['Massivholz: deutsche Fichte / Eiche', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
+    care: 'Geöltes Massivholz bleibt mit wenig Aufwand schön: trocken abstauben, bei Bedarf mit einem nur leicht feuchten Tuch abwischen und anschließend trockenreiben. Keine Mikrofasertücher, Scheuermittel oder aggressiven Reiniger verwenden. Je nach Beanspruchung genügt es, die Oberfläche etwa einmal im Jahr mit einem handelsüblichen Hartwachsöl nachzuölen – kleine Gebrauchsspuren lassen sich dabei mitbehandeln. Direkte Heizungsluft und dauerhafte pralle Sonne sollten Sie vermeiden, damit das Holz gleichmäßig arbeitet.',
     images: [
       '/images/echtholzbett_2.jpg',
       '/images/echtholzbett_1.jpg',
@@ -54,6 +55,54 @@ export const PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?auto=format&fit=crop&w=1200&q=80'
     ]
   }
+];
+
+/**
+ * Haeufige Fragen. Bewusst faktisch gehalten – jede Antwort deckt sich mit den
+ * Angaben in den Produktdaten und den Rechtstexten. Wird auf der Produktseite
+ * ausgegeben und als FAQPage-Schema ausgeliefert.
+ */
+export const FAQ: FaqItem[] = [
+  {
+    question: 'Wie lange dauert die Fertigung?',
+    answer:
+      'Wir fertigen jedes Stück erst nach Ihrer Bestellung an. Die Fertigungszeit beträgt in der Regel etwa 4 bis 6 Wochen ab Zahlungseingang, danach folgt der Versand.',
+  },
+  {
+    question: 'Aus welchem Holz wird das Bett gefertigt?',
+    answer:
+      'Standardmäßig aus deutscher Fichte. Eiche ist gegen Aufpreis möglich. Das Holz stammt aus nachhaltiger deutscher Forstwirtschaft und ist FSC-zertifiziert, die Oberfläche ist geölt.',
+  },
+  {
+    question: 'Werden Metallverbindungen verwendet?',
+    answer:
+      'Nein. Das Bett wird mit klassischen Holzverbindungen gefügt statt mit Metallbeschlägen – das ist konstruktiv langlebiger und bleibt reparierbar.',
+  },
+  {
+    question: 'Welche Maße sind möglich?',
+    answer:
+      'Das Bett gibt es in Breiten von 120 bis 180 cm bei 200 cm Länge und 20 cm Höhe. Abweichende Maße sind als Sonderanfertigung nach Absprache möglich.',
+  },
+  {
+    question: 'Gibt es ein Rückgaberecht?',
+    answer:
+      'Für unsere Standardprodukte haben Sie als Verbraucher ein gesetzliches Widerrufsrecht von 14 Tagen ab Erhalt der Ware; die Kosten der Rücksendung tragen Sie. Bei echten Sonderanfertigungen nach Ihren individuellen Vorgaben ist das Widerrufsrecht gesetzlich ausgeschlossen. Unabhängig davon können Sie jede Bestellung bis zum Beginn der Fertigung kostenfrei stornieren.',
+  },
+  {
+    question: 'Wohin liefert Architekt & Meister?',
+    answer:
+      'Wir liefern nach Deutschland, in die EU und in die Schweiz. Die Versandkosten werden gesondert berechnet und kommen zum angegebenen Preis hinzu.',
+  },
+  {
+    question: 'Wird Umsatzsteuer ausgewiesen?',
+    answer:
+      'Nein. Architekt & Meister ist ein Einzelunternehmen und nutzt die Kleinunternehmerregelung nach § 19 UStG, daher wird keine Umsatzsteuer berechnet oder ausgewiesen.',
+  },
+  {
+    question: 'Wer steckt hinter Architekt & Meister?',
+    answer:
+      'Architekt & Meister ist eine Ein-Personen-Manufaktur von Lukas Westphalen in Dresden. Der Entwurf folgt architektonischen Prinzipien, die Ausführung meisterlicher Schreinerkunst – daher der Name.',
+  },
 ];
 
 export const LEGAL_TEXTS = {

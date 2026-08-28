@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ArrowRight, ArrowUpRight, CheckCircle } from 'lucide-react';
-import { PRODUCTS, LEGAL_TEXTS } from './data';
+import { PRODUCTS, LEGAL_TEXTS, FAQ } from './data';
 import { useSeo } from './useSeo';
+import { Picture, imageInfo } from './Picture';
 import { Product, OrderForm } from './types';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
 
@@ -247,14 +248,21 @@ const Hero = () => {
         style={{ y, opacity }}
         className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[3/4] z-0 -translate-y-1/2 pointer-events-none"
       >
-          <motion.img
-            initial={{ scale: 1.5, filter: "blur(10px)" }}
-            animate={{ scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1.5, ease: "circOut" }}
-            src="/images/echtholzbett_2.jpg"
-            alt="Echtholz Bett"
-            className="w-full h-full object-cover opacity-90"
-          />
+          <picture>
+            <source srcSet={imageInfo('/images/echtholzbett_2.jpg')?.webp} type="image/webp" />
+            <motion.img
+              initial={{ scale: 1.5, filter: "blur(10px)" }}
+              animate={{ scale: 1, filter: "blur(0px)" }}
+              transition={{ duration: 1.5, ease: "circOut" }}
+              src="/images/echtholzbett_2.jpg"
+              alt="Handgefertigtes Echtholz-Bett aus deutscher Fichte, gefertigt in Dresden"
+              width={imageInfo('/images/echtholzbett_2.jpg')?.width}
+              height={imageInfo('/images/echtholzbett_2.jpg')?.height}
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover opacity-90"
+            />
+          </picture>
       </motion.div>
     </section>
   );
@@ -391,7 +399,7 @@ const ProductList = () => {
                 }}
             >
                 {cursorImage && (
-                    <img src={cursorImage} alt="" className="w-full h-full object-cover" />
+                    <Picture src={cursorImage} alt="" className="w-full h-full object-cover" />
                 )}
             </motion.div>
 
@@ -420,14 +428,21 @@ const ProductDetail = () => {
         <div className="bg-am-offwhite min-h-screen">
             {/* Hero Image Parallax */}
             <div className="h-[80vh] w-full overflow-hidden relative">
-                <motion.img 
-                    initial={{ scale: 1.2 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    src={product.images[0]}
-                    alt={`${product.name} – ${product.tagline}`}
-                    className="w-full h-full object-cover"
-                />
+                <picture>
+                    <source srcSet={imageInfo(product.images[0])?.webp} type="image/webp" />
+                    <motion.img
+                        initial={{ scale: 1.2 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        src={product.images[0]}
+                        alt={`${product.name} aus ${product.material.replace(/\.$/, '')} – ${product.tagline}`}
+                        width={imageInfo(product.images[0])?.width}
+                        height={imageInfo(product.images[0])?.height}
+                        fetchPriority="high"
+                        decoding="async"
+                        className="w-full h-full object-cover"
+                    />
+                </picture>
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute bottom-12 left-6 md:left-12 text-white">
                      <h1 className="font-display text-big font-bold leading-none mb-4 uppercase">{product.name}</h1>
@@ -495,9 +510,34 @@ const ProductDetail = () => {
                             viewport={{ once: true, margin: "-10%" }}
                             transition={{ type: "spring", bounce: 0, duration: 0.7 }}
                         >
-                            <img src={img} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl" alt={`${product.name} – Ansicht ${idx + 1}`} />
+                            <Picture
+                                src={img}
+                                alt={idx === 0
+                                    ? `${product.name} – Gesamtansicht des handgefertigten Massivholzbetts`
+                                    : `${product.name} – Detail- und Konstruktionsansicht ${idx}`}
+                                className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl"
+                            />
                         </motion.div>
                     ))}
+
+                    {product.care && (
+                        <section className="border-t border-gray-300 pt-12">
+                            <h2 className="font-mono text-sm uppercase tracking-widest text-gray-500 mb-6">Pflege</h2>
+                            <p className="font-sans text-lg leading-relaxed text-gray-700 max-w-2xl">{product.care}</p>
+                        </section>
+                    )}
+
+                    <section className="border-t border-gray-300 pt-12">
+                        <h2 className="font-mono text-sm uppercase tracking-widest text-gray-500 mb-8">Häufige Fragen</h2>
+                        <dl className="space-y-8 max-w-2xl">
+                            {FAQ.map((item) => (
+                                <div key={item.question}>
+                                    <dt className="font-display text-xl font-bold mb-2">{item.question}</dt>
+                                    <dd className="font-sans text-base leading-relaxed text-gray-600">{item.answer}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </section>
                 </div>
             </div>
         </div>
@@ -579,7 +619,7 @@ const Checkout = () => {
                       <span className="font-display text-2xl font-bold">{product.name}</span>
                       <span className="font-mono">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</span>
                   </div>
-                  <img src={product.images[0]} className="w-full h-64 object-cover grayscale" alt={product.name} />
+                  <Picture src={product.images[0]} alt={product.name} className="w-full h-64 object-cover grayscale" />
               </div>
            </div>
   
@@ -746,7 +786,11 @@ const Consultation = () => (
                     </div>
                 </div>
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
-                    <img src="/images/echtholzbett_2.jpg" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Echtholz Bett" />
+                    <Picture
+                        src="/images/echtholzbett_2.jpg"
+                        alt="Echtholz-Bett aus der Manufaktur Architekt & Meister in Dresden"
+                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                    />
                     <div className="absolute inset-0 border border-black/5 pointer-events-none"></div>
                 </div>
              </div>
