@@ -25,6 +25,7 @@ export interface OrderForm {
   street: string;
   houseNumber: string;
   postcode: string;
+  city: string;
   country: string;
 }
 

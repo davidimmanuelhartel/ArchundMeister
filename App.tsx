@@ -571,7 +571,7 @@ const Checkout = () => {
     const product = PRODUCTS.find(p => p.id === productId);
     
     const [formData, setFormData] = useState<OrderForm>({
-      name: '', email: '', phone: '', street: '', houseNumber: '', postcode: '', country: 'Deutschland'
+      name: '', email: '', phone: '', street: '', houseNumber: '', postcode: '', city: '', country: 'Deutschland'
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -598,6 +598,7 @@ const Checkout = () => {
             street: formData.street,
             houseNumber: formData.houseNumber,
             postcode: formData.postcode,
+            city: formData.city,
             country: formData.country,
             productId: product.id,
             productName: product.name,
@@ -644,7 +645,7 @@ const Checkout = () => {
   
            <form onSubmit={handleSubmit} className="space-y-8 mt-8 md:mt-0">
                 {/* Form fields styled brutally simple */}
-                {['name', 'email', 'street'].map((field) => (
+                {['name', 'email'].map((field) => (
                     <div key={field} className="relative">
                          <input 
                             required 
@@ -656,20 +657,37 @@ const Checkout = () => {
                     </div>
                 ))}
                 
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-3 gap-8">
+                    <input 
+                        required 
+                        type="text" 
+                        placeholder="STRASSE"
+                        className="col-span-2 w-full border-b border-black py-4 bg-transparent font-mono focus:outline-none placeholder-gray-400 focus:border-gray-800 transition-colors"
+                        onChange={e => setFormData({...formData, street: e.target.value})} 
+                    />
+                    <input 
+                        required 
+                        type="text" 
+                        placeholder="HAUSNR."
+                        className="w-full border-b border-black py-4 bg-transparent font-mono focus:outline-none placeholder-gray-400 focus:border-gray-800 transition-colors"
+                        onChange={e => setFormData({...formData, houseNumber: e.target.value})} 
+                    />
+                </div>
+
+                <div className="grid grid-cols-3 gap-8">
                     <input 
                         required 
                         type="text" 
                         placeholder="PLZ"
-                        className="w-full border-b border-black py-4 bg-transparent font-mono focus:outline-none"
+                        className="w-full border-b border-black py-4 bg-transparent font-mono focus:outline-none placeholder-gray-400 focus:border-gray-800 transition-colors"
                         onChange={e => setFormData({...formData, postcode: e.target.value})} 
                     />
                      <input 
                         required 
                         type="text" 
                         placeholder="ORT"
-                        className="w-full border-b border-black py-4 bg-transparent font-mono focus:outline-none"
-                        onChange={e => setFormData({...formData, houseNumber: e.target.value})} 
+                        className="col-span-2 w-full border-b border-black py-4 bg-transparent font-mono focus:outline-none placeholder-gray-400 focus:border-gray-800 transition-colors"
+                        onChange={e => setFormData({...formData, city: e.target.value})} 
                     />
                 </div>
 
