@@ -211,8 +211,20 @@ const FullscreenMenu = ({ isOpen, close }: { isOpen: boolean, close: () => void 
 
 const Hero = () => {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 1000], [0, 300]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const y = useTransform(scrollY, [0, 600], [0, 120]);
+  const opacity = useTransform(scrollY, [0, 600], [1, 0]);
+  // Parallaxe nur im zweispaltigen Layout (ab lg) und ohne "Bewegung reduzieren": darunter steht das
+  // Video zwischen Überschrift und Text und würde beim Scrollen über den Text gleiten.
+  // Erst nach dem Mount gesetzt, damit das vorgerenderte HTML beim Hydrieren passt.
+  const [parallax, setParallax] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+    const update = () => setParallax(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 1 },
@@ -237,9 +249,11 @@ const Hero = () => {
   const headline = words.join(' ');
 
   return (
-    <section className="relative min-h-screen flex items-center px-6 pt-20 overflow-hidden bg-am-offwhite">
-      <div className="container mx-auto grid md:grid-cols-12 gap-8 items-center relative z-10">
-        <div className="md:col-span-9">
+    <section className="relative min-h-[100svh] flex items-center px-6 pt-28 pb-16 lg:pt-24 lg:pb-12 overflow-hidden bg-am-offwhite">
+      {/* Handy und Tablet hochkant: Überschrift, Video, Text untereinander. Ab lg: Überschrift und Text links,
+          Video rechts über beide Zeilen – das Bett bleibt im Querformat vollständig sichtbar. */}
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-16 items-center">
+        <div className="lg:col-span-7 lg:row-start-1 lg:self-end">
             {/* The headline is split into per-word elements for the reveal animation, which
                 strips the spaces between words from the DOM. The sr-only copy keeps the
                 full, correctly spaced sentence available to screen readers and crawlers. */}
@@ -264,12 +278,23 @@ const Hero = () => {
                     ))}
                 </motion.span>
             </h1>
-            
+        </div>
+
+        <motion.div
+            style={parallax ? { y, opacity } : undefined}
+            className="lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:row-span-2"
+        >
+            <div className="relative aspect-[3/2] w-full overflow-hidden bg-am-gray">
+                <HeroVideo />
+            </div>
+        </motion.div>
+
+        <div className="lg:col-span-7 lg:row-start-2 lg:self-start">
             <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.8 }}
-                className="mt-12 md:mt-20 font-sans font-normal text-base max-w-md leading-relaxed text-gray-600"
+                className="font-sans font-normal text-base max-w-md leading-relaxed text-gray-600"
             >
                 Keine Produktion ohne Entwurf. Kein Entwurf ohne Handwerk.
                 Jedes Stück entsteht in der Begegnung von Architekturdenken und meisterlicher Schreinerkunst.
@@ -285,18 +310,11 @@ const Hero = () => {
             </motion.p>
         </div>
       </div>
-
-      <motion.div
-        style={{ y, opacity }}
-        className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[3/4] z-0 -translate-y-1/2 pointer-events-none"
-      >
-          <HeroVideo />
-      </motion.div>
     </section>
   );
 };
 
-// Loop des Echtholz-Betts (Fichte, Vorhang, Eiche, Eiche schwarz) im 3:4-Ausschnitt.
+// Loop des Echtholz-Betts (Fichte, Vorhang, Eiche, Eiche schwarz) im 3:2-Ausschnitt, Bett vollständig im Bild.
 // Startet erst nach dem Hydrieren per Skript: React schreibt das muted-Attribut nicht ins
 // vorgerenderte HTML, ohne muted blockieren Browser das automatische Abspielen.
 // Bei "Bewegung reduzieren" bleibt das Posterbild stehen.
@@ -324,7 +342,7 @@ const HeroVideo = () => {
       playsInline
       preload="auto"
       aria-hidden="true"
-      className="w-full h-full object-cover opacity-90"
+      className="absolute inset-0 w-full h-full object-cover pointer-events-none"
     />
   );
 };
@@ -478,22 +496,25 @@ const ProductList = () => {
     );
 };
 
-// Auswahl der Holzart als Radio-Gruppe: Holzmuster, Name, Aufpreis
-const WoodSelector = ({ name, options, value, onChange }: { name: string, options: WoodOption[], value: string, onChange: (id: string) => void }) => (
+// Auswahl der Holzart als Radio-Gruppe: Holzmuster, Name, Aufpreis. "schmal": in der Seitenspalte der
+// Produktseite (md bis lg zu eng für drei Kacheln) als Liste untereinander.
+const WoodSelector = ({ name, options, value, onChange, schmal = false }: { name: string, options: WoodOption[], value: string, onChange: (id: string) => void, schmal?: boolean }) => (
     <fieldset>
         <legend className="font-mono text-sm uppercase text-gray-500 mb-3">Holzart</legend>
-        <div className="grid grid-cols-3 gap-2">
+        <div className={`grid grid-cols-3 gap-2 ${schmal ? 'md:grid-cols-1 lg:grid-cols-3' : ''}`}>
             {options.map((option) => {
                 const aktiv = option.id === value;
                 return (
                     <label
                         key={option.id}
-                        className={`flex cursor-pointer flex-col gap-3 border p-3 transition-colors duration-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black ${aktiv ? 'border-black bg-white' : 'border-gray-300 hover:border-black'}`}
+                        className={`flex cursor-pointer flex-col gap-3 border p-3 transition-colors duration-300 ${schmal ? 'md:flex-row md:items-center lg:flex-col lg:items-start' : ''} has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black ${aktiv ? 'border-black bg-white' : 'border-gray-300 hover:border-black'}`}
                     >
                         <input type="radio" name={name} value={option.id} checked={aktiv} onChange={() => onChange(option.id)} className="sr-only" />
                         <Picture src={option.swatch} alt="" className={`h-9 w-9 rounded-full object-cover ring-1 ${aktiv ? 'ring-black' : 'ring-black/10'}`} />
-                        <span className="font-display text-sm font-bold uppercase leading-tight">{option.name}</span>
-                        <span className="font-mono text-xs text-gray-500">{option.surcharge ? `+ ${formatPreis(option.surcharge, true)}` : option.note}</span>
+                        <span className="flex flex-col gap-3">
+                            <span className="font-display text-sm font-bold uppercase leading-tight">{option.name}</span>
+                            <span className="font-mono text-xs text-gray-500">{option.surcharge ? `+ ${formatPreis(option.surcharge, true)}` : option.note}</span>
+                        </span>
                     </label>
                 );
             })}
@@ -533,8 +554,11 @@ const ProductDetail = () => {
 
     return (
         <div className="bg-am-offwhite min-h-screen">
-            {/* Hero Image Parallax */}
-            <div className="h-[80vh] w-full overflow-hidden relative">
+            {/* Kopfbild im 3:2-Format der Fotos, höchstens 80 % der Bildschirmhöhe: auf Handy und Tablet
+                bleibt das ganze Bett sichtbar statt eines schmalen Hochformat-Ausschnitts. Der Titel steht
+                dort unter dem Bild, ab lg wie bisher auf dem Bild. */}
+            <div className="relative">
+            <div className="w-full aspect-[3/2] max-h-[80vh] overflow-hidden relative">
                 <motion.div
                     initial={{ scale: 1.2 }}
                     animate={{ scale: 1 }}
@@ -554,32 +578,34 @@ const ProductDetail = () => {
                                     height={imageInfo(bild.src)?.height}
                                     {...(idx === 0 ? { fetchPriority: 'high' as const } : {})}
                                     decoding="async"
-                                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${aktiv ? 'opacity-100' : 'opacity-0'}`}
+                                    className={`absolute inset-0 w-full h-full object-cover object-[50%_65%] transition-opacity duration-700 ${aktiv ? 'opacity-100' : 'opacity-0'}`}
                                 />
                             </picture>
                         );
                     })}
                 </motion.div>
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="absolute bottom-12 left-6 md:left-12 text-white">
-                     <h1 className="font-display text-big font-bold leading-none mb-4 uppercase">{product.name}</h1>
-                     <p className="font-mono text-lg">{product.tagline}</p>
-                </div>
+                <div className="absolute inset-0 bg-black/20 hidden lg:block" />
+            </div>
+            <div className="px-6 pt-10 lg:absolute lg:bottom-12 lg:left-12 lg:p-0 lg:text-white">
+                 <h1 className="font-display text-big font-bold leading-none mb-4 uppercase">{product.name}</h1>
+                 <p className="font-mono text-lg">{product.tagline}</p>
+            </div>
             </div>
 
-            <div className="container mx-auto px-6 py-24 grid md:grid-cols-12 gap-12">
+            <div className="container mx-auto px-6 pt-12 pb-24 lg:py-24 grid md:grid-cols-12 gap-12">
                 <div className="md:col-span-4 max-md:order-1 md:sticky md:top-24 h-fit bg-am-offwhite md:bg-transparent pb-12 md:pb-0">
                     <div className="border-t border-black pt-6 mb-8">
                         <p className="font-mono text-sm uppercase text-gray-500 mb-2">Preis</p>
-                        <div className="flex items-baseline gap-2">
+                        {/* flex-wrap: in der schmalen Tablet-Spalte rutscht der Zusatz unter den Preis statt in die Nachbarspalte */}
+                        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                             <p className="font-display text-3xl font-bold" aria-live="polite">{formatPreis(preis)}</p>
-                            <span className="font-mono text-sm text-gray-400">zzgl. Versandkosten</span>
+                            <span className="font-mono text-sm text-gray-400 whitespace-nowrap">zzgl. Versandkosten</span>
                         </div>
                     </div>
 
                     {product.woodOptions && holz && (
                         <div className="mb-8">
-                            <WoodSelector name="holzart" options={product.woodOptions} value={holz.id} onChange={waehleHolz} />
+                            <WoodSelector name="holzart" options={product.woodOptions} value={holz.id} onChange={waehleHolz} schmal />
                         </div>
                     )}
 
