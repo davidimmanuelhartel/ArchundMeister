@@ -1,6 +1,20 @@
+/** Wählbare Holzart eines Produkts: Aufpreis auf den Grundpreis und eigene Bilder. */
+export interface WoodOption {
+  id: string;
+  name: string;
+  /** Kurzer Zusatz unter dem Namen, z. B. „Standard“ oder „schwarz gebeizt“. */
+  note: string;
+  surcharge: number;
+  /** Bilder in dieser Holzart, das erste ist das Hauptbild. */
+  images: string[];
+  /** Kleines Holzmuster für die Auswahl. */
+  swatch: string;
+}
+
 export interface Product {
   id: string;
   name: string;
+  /** Grundpreis; mit Holzarten der Preis der ersten (Standard-)Holzart. */
   price: number;
   description: string;
   material: string;
@@ -11,6 +25,7 @@ export interface Product {
   comingSoon?: boolean;
   features?: string[];
   care?: string;
+  woodOptions?: WoodOption[];
 }
 
 export interface FaqItem {

@@ -110,6 +110,10 @@ fs.writeFileSync(
 const buyable = PRODUCTS.filter((p) => !p.comingSoon);
 const upcoming = PRODUCTS.filter((p) => p.comingSoon);
 const price = (p) => p.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+const holzarten = (p) =>
+  p.woodOptions?.length
+    ? ` Holzarten: ${p.woodOptions.map((w) => (w.surcharge ? `${w.name} (+${w.surcharge} €)` : `${w.name} (Standard)`)).join(', ')}.`
+    : '';
 
 const llms = `# Architekt & Meister
 
@@ -125,7 +129,7 @@ const llms = `# Architekt & Meister
 - Kontakt: architektundmeister@gmail.com, +49 151 22807682
 - Fertigungszeit: ca. 4–6 Wochen nach Zahlungseingang
 - Lieferung: Deutschland, EU und Schweiz
-- Material: deutsche Fichte (Standard), Eiche gegen Aufpreis, FSC-zertifiziert, geölt
+- Material: deutsche Fichte (Standard), Eiche oder Eiche schwarz gebeizt gegen Aufpreis, FSC-zertifiziert, geölt
 - Bauweise: klassische Holzverbindungen statt Metall
 - Widerruf: 14 Tage gesetzliches Widerrufsrecht für Standardprodukte; für Sonderanfertigungen
   nach individuellen Kundenvorgaben ausgeschlossen (§ 312g Abs. 2 Nr. 1 BGB). Kostenfreie
@@ -136,7 +140,7 @@ const llms = `# Architekt & Meister
 ${buyable
   .map(
     (p) =>
-      `- [${p.name}](${SITE_URL}/product/${p.id}): ${p.tagline} ${price(p)} zzgl. Versand. ${p.material} Maße: ${p.dimensions}`
+      `- [${p.name}](${SITE_URL}/product/${p.id}): ${p.tagline} ${p.woodOptions?.length ? 'ab ' : ''}${price(p)} zzgl. Versand. ${p.material} Maße: ${p.dimensions}${holzarten(p)}`
   )
   .join('\n')}
 ${upcoming.length ? `\n### In Vorbereitung (noch nicht bestellbar)\n\n${upcoming.map((p) => `- ${p.name}: ${p.tagline} Geplant ab ${price(p)}.`).join('\n')}\n` : ''}

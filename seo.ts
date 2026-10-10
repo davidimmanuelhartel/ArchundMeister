@@ -2,7 +2,7 @@ import { PRODUCTS, FAQ } from './data';
 
 export const SITE_URL = 'https://architektundmeister.de';
 export const SITE_NAME = 'Architekt & Meister';
-export const DEFAULT_IMAGE = `${SITE_URL}/images/echtholzbett_2.jpg`;
+export const DEFAULT_IMAGE = `${SITE_URL}/images/echtholzbett_fichte_gemacht.jpg`;
 
 export interface SeoData {
   title: string;

@@ -17,9 +17,24 @@ interface OrderBody {
   productId: string;
   productName: string;
   productPrice: number;
+  /** Gewählte Holzart (id aus data.ts, z. B. "eiche"); fehlt bei Produkten ohne Holzauswahl. */
+  woodId?: string;
 }
 
-function buildCustomerEmailHtml(orderData: OrderBody & { reference: string; formattedPrice: string }) {
+// Anzeigenamen der Holzarten wie in data.ts. Bewusst hier wiederholt: die Serverless-Funktion
+// importiert keine Frontend-Dateien, und Mails/Datenbank sollen nur bekannte Namen enthalten.
+const HOLZARTEN: Record<string, string> = {
+  fichte: 'Fichte',
+  eiche: 'Eiche',
+  'eiche-schwarz': 'Eiche schwarz gebeizt',
+};
+
+type OrderData = OrderBody & { reference: string; formattedPrice: string; woodName?: string };
+
+const woodRow = (orderData: OrderData, html: (label: string, value: string) => string) =>
+  orderData.woodName ? html('Holzart', orderData.woodName) : '';
+
+function buildCustomerEmailHtml(orderData: OrderData) {
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8">
@@ -31,7 +46,7 @@ function buildCustomerEmailHtml(orderData: OrderBody & { reference: string; form
 <div class="content">
 <p>Sehr geehrte/r ${orderData.name},</p>
 <p>vielen Dank für Ihre Bestellung bei Architekt & Meister.</p>
-<div class="details"><p class="reference">Referenznummer: ${orderData.reference}</p><p><strong>Produkt:</strong> ${orderData.productName}</p><p><strong>Preis:</strong> ${orderData.formattedPrice}</p></div>
+<div class="details"><p class="reference">Referenznummer: ${orderData.reference}</p><p><strong>Produkt:</strong> ${orderData.productName}</p>${woodRow(orderData, (label, value) => `<p><strong>${label}:</strong> ${value}</p>`)}<p><strong>Preis:</strong> ${orderData.formattedPrice}</p></div>
 <p>Wir werden Ihre Anfrage schnellstmöglich bearbeiten und uns in Kürze bei Ihnen melden.</p>
 <p>Bei Fragen stehen wir Ihnen gerne zur Verfügung.</p>
 <p>Mit freundlichen Grüßen,<br>Architekt & Meister</p>
@@ -42,7 +57,7 @@ function buildCustomerEmailHtml(orderData: OrderBody & { reference: string; form
 </html>`;
 }
 
-function buildBusinessEmailHtml(orderData: OrderBody & { reference: string; formattedPrice: string }) {
+function buildBusinessEmailHtml(orderData: OrderData) {
   const phoneBlock = orderData.phone ? `<div class="section"><span class="label">Telefon:</span> <a href="tel:${orderData.phone}">${orderData.phone}</a></div>` : '';
   return `<!DOCTYPE html>
 <html>
@@ -57,6 +72,7 @@ function buildBusinessEmailHtml(orderData: OrderBody & { reference: string; form
 <div class="details"><h2 style="margin-top:0">Produktinformationen</h2>
 <div class="section"><span class="label">Produkt:</span> ${orderData.productName}</div>
 <div class="section"><span class="label">Produkt-ID:</span> ${orderData.productId}</div>
+${woodRow(orderData, (label, value) => `<div class="section"><span class="label">${label}:</span> ${value}</div>`)}
 <div class="section"><span class="label">Preis:</span> ${orderData.formattedPrice}</div></div>
 <div class="details"><h2 style="margin-top:0">Kundeninformationen</h2>
 <div class="section"><span class="label">Name:</span> ${orderData.name}</div>
@@ -105,13 +121,22 @@ export async function POST(request: Request) {
     );
   }
 
-  const { name, email, phone, street, houseNumber, postcode, country, productId, productName, productPrice } = body;
+  const { name, email, phone, street, houseNumber, postcode, country, productId, productName, productPrice, woodId } = body;
   if (!name || !email || !street || !houseNumber || !postcode || !country || !productId || !productName || productPrice == null) {
     return new Response(
       JSON.stringify({ success: false, error: 'Missing required fields' }),
       { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
     );
   }
+  const woodName = woodId ? HOLZARTEN[woodId] : undefined;
+  if (woodId && !woodName) {
+    return new Response(
+      JSON.stringify({ success: false, error: 'Unbekannte Holzart' }),
+      { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
+  }
+  // Die Holzart landet im Produktnamen der Datenbank, so braucht die Tabelle keine neue Spalte
+  const storedProductName = woodName ? `${productName} – ${woodName}` : productName;
 
   const ref = `AM-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
   const sql = neon(dbUrl);
@@ -120,7 +145,7 @@ export async function POST(request: Request) {
   try {
     const insertRows = await sql`
       INSERT INTO orders (reference, customer_name, customer_email, customer_phone, street, house_number, postcode, country, product_id, product_name, product_price, status)
-      VALUES (${ref}, ${name}, ${email}, ${phone ?? null}, ${street}, ${houseNumber}, ${postcode}, ${country}, ${productId}, ${productName}, ${productPrice}, 'pending')
+      VALUES (${ref}, ${name}, ${email}, ${phone ?? null}, ${street}, ${houseNumber}, ${postcode}, ${country}, ${productId}, ${storedProductName}, ${productPrice}, 'pending')
       RETURNING id
     `;
     const row = Array.isArray(insertRows) ? insertRows[0] : (insertRows as unknown as { id: string }[])[0];
@@ -133,7 +158,7 @@ export async function POST(request: Request) {
   }
 
   const formattedPrice = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(productPrice);
-  const orderData = { ...body, reference: ref, formattedPrice };
+  const orderData: OrderData = { ...body, reference: ref, formattedPrice, woodName };
 
   if (resendKey) {
     try {
