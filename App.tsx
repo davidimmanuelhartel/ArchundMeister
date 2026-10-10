@@ -5,12 +5,35 @@ import { Menu, X, ArrowRight, ArrowUpRight, CheckCircle } from 'lucide-react';
 import { PRODUCTS, LEGAL_TEXTS, FAQ } from './data';
 import { useSeo } from './useSeo';
 import { Picture, imageInfo } from './Picture';
-import { Product, OrderForm } from './types';
+import { Product, OrderForm, WoodOption } from './types';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring, useMotionValue } from 'framer-motion';
 
 // --- Utilities ---
 
 const transition = { duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] };
+
+const formatPreis = (value: number, ohneCent = false) =>
+  value.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', ...(ohneCent ? { maximumFractionDigits: 0 } : {}) });
+
+/** Gewählte Holzart oder die erste (Standard); null bei Produkten ohne Holzauswahl. */
+const holzart = (product: Product, id: string | null | undefined): WoodOption | null =>
+  product.woodOptions?.find((w) => w.id === id) ?? product.woodOptions?.[0] ?? null;
+
+const BILD_MOTIV: Record<string, string> = {
+  gemacht: 'gemacht, mit Leinenbettwäsche',
+  gestell: 'Gestell ohne Matratze',
+  detail: 'Detail der Lattenenden und Doppelwangen',
+};
+
+const bildAlt = (product: Product, img: string, idx: number) => {
+  const holz = product.woodOptions?.find((w) => w.images.includes(img));
+  const motiv = Object.keys(BILD_MOTIV).find((m) => img.includes(`_${m}.`));
+  if (holz && motiv) return `${product.name} in ${holz.name} – ${BILD_MOTIV[motiv]}`;
+  if (img.includes('drawing')) return `${product.name} – Konstruktionszeichnung`;
+  return idx === 0
+    ? `${product.name} – Gesamtansicht des handgefertigten Massivholzbetts`
+    : `${product.name} – Detail- und Konstruktionsansicht ${idx}`;
+};
 
 // --- Custom Components ---
 
@@ -267,23 +290,42 @@ const Hero = () => {
         style={{ y, opacity }}
         className="absolute top-1/2 right-0 md:right-[5%] w-[60vw] md:w-[30vw] aspect-[3/4] z-0 -translate-y-1/2 pointer-events-none"
       >
-          <picture>
-            <source srcSet={imageInfo('/images/echtholzbett_2.jpg')?.webp} type="image/webp" />
-            <motion.img
-              initial={{ scale: 1.5, filter: "blur(10px)" }}
-              animate={{ scale: 1, filter: "blur(0px)" }}
-              transition={{ duration: 1.5, ease: "circOut" }}
-              src="/images/echtholzbett_2.jpg"
-              alt="Handgefertigtes Echtholz-Bett aus deutscher Fichte, gefertigt in Dresden"
-              width={imageInfo('/images/echtholzbett_2.jpg')?.width}
-              height={imageInfo('/images/echtholzbett_2.jpg')?.height}
-              fetchPriority="high"
-              decoding="async"
-              className="w-full h-full object-cover opacity-90"
-            />
-          </picture>
+          <HeroVideo />
       </motion.div>
     </section>
+  );
+};
+
+// Loop des Echtholz-Betts (Fichte, Vorhang, Eiche, Eiche schwarz) im 3:4-Ausschnitt.
+// Startet erst nach dem Hydrieren per Skript: React schreibt das muted-Attribut nicht ins
+// vorgerenderte HTML, ohne muted blockieren Browser das automatische Abspielen.
+// Bei "Bewegung reduzieren" bleibt das Posterbild stehen.
+const HeroVideo = () => {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    video.muted = true;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    video.play().catch(() => {});
+  }, []);
+
+  return (
+    <motion.video
+      ref={ref}
+      initial={{ scale: 1.5, filter: "blur(10px)" }}
+      animate={{ scale: 1, filter: "blur(0px)" }}
+      transition={{ duration: 1.5, ease: "circOut" }}
+      src="/videos/echtholzbett_loop.mp4"
+      poster="/images/echtholzbett_loop_poster.jpg"
+      muted
+      loop
+      playsInline
+      preload="auto"
+      aria-hidden="true"
+      className="w-full h-full object-cover opacity-90"
+    />
   );
 };
 
@@ -365,7 +407,7 @@ const ProductListItem: React.FC<{ product: Product, setCursorImage: (img: string
                         {product.tagline}
                      </span>
                      <span className="font-mono text-xl font-medium">
-                        {product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}
+                        {product.woodOptions?.some((w) => w.surcharge > 0) ? 'ab ' : ''}{formatPreis(product.price)}
                      </span>
                      {!isComingSoon && (
                         <ArrowUpRight className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -436,32 +478,88 @@ const ProductList = () => {
     );
 };
 
+// Auswahl der Holzart als Radio-Gruppe: Holzmuster, Name, Aufpreis
+const WoodSelector = ({ name, options, value, onChange }: { name: string, options: WoodOption[], value: string, onChange: (id: string) => void }) => (
+    <fieldset>
+        <legend className="font-mono text-sm uppercase text-gray-500 mb-3">Holzart</legend>
+        <div className="grid grid-cols-3 gap-2">
+            {options.map((option) => {
+                const aktiv = option.id === value;
+                return (
+                    <label
+                        key={option.id}
+                        className={`flex cursor-pointer flex-col gap-3 border p-3 transition-colors duration-300 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black ${aktiv ? 'border-black bg-white' : 'border-gray-300 hover:border-black'}`}
+                    >
+                        <input type="radio" name={name} value={option.id} checked={aktiv} onChange={() => onChange(option.id)} className="sr-only" />
+                        <Picture src={option.swatch} alt="" className={`h-9 w-9 rounded-full object-cover ring-1 ${aktiv ? 'ring-black' : 'ring-black/10'}`} />
+                        <span className="font-display text-sm font-bold uppercase leading-tight">{option.name}</span>
+                        <span className="font-mono text-xs text-gray-500">{option.surcharge ? `+ ${formatPreis(option.surcharge, true)}` : option.note}</span>
+                    </label>
+                );
+            })}
+        </div>
+    </fieldset>
+);
+
 const ProductDetail = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const productId = location.pathname.split('/').pop();
     const product = PRODUCTS.find(p => p.id === productId);
+    // Startet immer mit der Standard-Holzart, damit die vorgerenderte Seite beim Hydrieren passt;
+    // eine Holzart aus dem Link (?holz=eiche) wird danach übernommen
+    const [holzId, setHolzId] = useState<string | null>(product?.woodOptions?.[0]?.id ?? null);
+
+    useEffect(() => {
+        const ausLink = new URLSearchParams(location.search).get('holz');
+        if (ausLink && product?.woodOptions?.some((w) => w.id === ausLink)) setHolzId(ausLink);
+    }, [location.search, product]);
 
     if (!product) return null;
+
+    const holz = holzart(product, holzId);
+    const preis = product.price + (holz?.surcharge ?? 0);
+    // Galerie: Bilder der gewählten Holzart, danach alles ohne Holzbezug (Konstruktionszeichnungen)
+    const holzBilder = new Set(product.woodOptions?.flatMap((w) => w.images) ?? []);
+    const galerie = holz ? [...holz.images, ...product.images.filter((img) => !holzBilder.has(img))] : product.images;
+    // Kopfbild: alle Holzarten übereinander, die gewählte wird eingeblendet (kein Nachladen beim Wechsel)
+    const kopfbilder = product.woodOptions?.map((w) => ({ id: w.id, src: w.images[0], name: w.name })) ?? [{ id: 'standard', src: product.images[0], name: '' }];
+    const aktivesKopfbild = holz?.id ?? 'standard';
+
+    const waehleHolz = (id: string) => {
+        setHolzId(id);
+        navigate({ search: id === product.woodOptions?.[0]?.id ? '' : `?holz=${id}` }, { replace: true });
+    };
 
     return (
         <div className="bg-am-offwhite min-h-screen">
             {/* Hero Image Parallax */}
             <div className="h-[80vh] w-full overflow-hidden relative">
-                <picture>
-                    <source srcSet={imageInfo(product.images[0])?.webp} type="image/webp" />
-                    <motion.img
-                        initial={{ scale: 1.2 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 1.5, ease: "easeOut" }}
-                        src={product.images[0]}
-                        alt={`${product.name} aus ${product.material.replace(/\.$/, '')} – ${product.tagline}`}
-                        width={imageInfo(product.images[0])?.width}
-                        height={imageInfo(product.images[0])?.height}
-                        fetchPriority="high"
-                        decoding="async"
-                        className="w-full h-full object-cover"
-                    />
-                </picture>
+                <motion.div
+                    initial={{ scale: 1.2 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="absolute inset-0"
+                >
+                    {kopfbilder.map((bild, idx) => {
+                        const aktiv = bild.id === aktivesKopfbild;
+                        return (
+                            <picture key={bild.id}>
+                                <source srcSet={imageInfo(bild.src)?.webp} type="image/webp" />
+                                <img
+                                    src={bild.src}
+                                    alt={aktiv ? `${product.name}${bild.name ? ` in ${bild.name}` : ''} – ${product.tagline}` : ''}
+                                    aria-hidden={!aktiv}
+                                    width={imageInfo(bild.src)?.width}
+                                    height={imageInfo(bild.src)?.height}
+                                    {...(idx === 0 ? { fetchPriority: 'high' as const } : {})}
+                                    decoding="async"
+                                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${aktiv ? 'opacity-100' : 'opacity-0'}`}
+                                />
+                            </picture>
+                        );
+                    })}
+                </motion.div>
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute bottom-12 left-6 md:left-12 text-white">
                      <h1 className="font-display text-big font-bold leading-none mb-4 uppercase">{product.name}</h1>
@@ -474,11 +572,17 @@ const ProductDetail = () => {
                     <div className="border-t border-black pt-6 mb-8">
                         <p className="font-mono text-sm uppercase text-gray-500 mb-2">Preis</p>
                         <div className="flex items-baseline gap-2">
-                            <p className="font-display text-3xl font-bold">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</p>
+                            <p className="font-display text-3xl font-bold" aria-live="polite">{formatPreis(preis)}</p>
                             <span className="font-mono text-sm text-gray-400">zzgl. Versandkosten</span>
                         </div>
                     </div>
-                    
+
+                    {product.woodOptions && holz && (
+                        <div className="mb-8">
+                            <WoodSelector name="holzart" options={product.woodOptions} value={holz.id} onChange={waehleHolz} />
+                        </div>
+                    )}
+
                     <div className="space-y-6">
                         {product.features && product.features.length > 0 && (
                             <ul className="space-y-2">
@@ -504,8 +608,8 @@ const ProductDetail = () => {
                         </div>
                     </div>
 
-                    <Link 
-                        to={`/checkout?product=${product.id}`}
+                    <Link
+                        to={`/checkout?product=${product.id}${holz ? `&holz=${holz.id}` : ''}`}
                         className="block mt-12 w-full bg-black text-white border border-black text-center py-4 px-8 font-display font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-all duration-300 shadow-lg"
                     >
                         Kaufen
@@ -521,9 +625,10 @@ const ProductDetail = () => {
                         ))}
                     </div>
 
-                    {product.images.map((img, idx) => (
+                    {/* In Farbe, damit die Holzarten unterscheidbar sind */}
+                    {galerie.map((img, idx) => (
                         <motion.div
-                            key={idx}
+                            key={img}
                             initial={{ opacity: 0, y: 28, scale: 0.97 }}
                             whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true, margin: "-10%" }}
@@ -531,10 +636,8 @@ const ProductDetail = () => {
                         >
                             <Picture
                                 src={img}
-                                alt={idx === 0
-                                    ? `${product.name} – Gesamtansicht des handgefertigten Massivholzbetts`
-                                    : `${product.name} – Detail- und Konstruktionsansicht ${idx}`}
-                                className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-xl"
+                                alt={bildAlt(product, img, idx)}
+                                className="w-full h-auto object-cover shadow-xl"
                             />
                         </motion.div>
                     ))}
@@ -569,7 +672,11 @@ const Checkout = () => {
     const queryParams = new URLSearchParams(location.search);
     const productId = queryParams.get('product');
     const product = PRODUCTS.find(p => p.id === productId);
-    
+    // Holzart aus der Produktseite (?holz=…), im Formular weiter änderbar
+    const [holzId, setHolzId] = useState<string | null>(() => (product ? holzart(product, queryParams.get('holz'))?.id ?? null : null));
+    const holz = product ? holzart(product, holzId) : null;
+    const preis = product ? product.price + (holz?.surcharge ?? 0) : 0;
+
     const [formData, setFormData] = useState<OrderForm>({
       name: '', email: '', phone: '', street: '', houseNumber: '', postcode: '', country: 'Deutschland'
     });
@@ -601,7 +708,8 @@ const Checkout = () => {
             country: formData.country,
             productId: product.id,
             productName: product.name,
-            productPrice: product.price,
+            productPrice: preis,
+            woodId: holz?.id,
           }),
         });
         const data = await res.json();
@@ -616,6 +724,8 @@ const Checkout = () => {
             product,
             formData,
             orderId: data.orderId,
+            holzName: holz?.name,
+            preis,
           },
         });
       } catch (err) {
@@ -635,10 +745,22 @@ const Checkout = () => {
               <div className="bg-am-offwhite p-8">
                   <h3 className="font-mono uppercase tracking-widest text-sm mb-4">Bestellübersicht</h3>
                   <div className="flex justify-between items-end border-b border-gray-300 pb-4 mb-4">
-                      <span className="font-display text-2xl font-bold">{product.name}</span>
-                      <span className="font-mono">{product.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</span>
+                      <span className="font-display text-2xl font-bold">
+                          {product.name}
+                          {holz && <span className="block font-mono text-sm font-normal text-gray-500 mt-1">Holzart: {holz.name}</span>}
+                      </span>
+                      <span className="font-mono" aria-live="polite">{formatPreis(preis)}</span>
                   </div>
-                  <Picture src={product.images[0]} alt={product.name} className="w-full h-64 object-cover grayscale" />
+                  {product.woodOptions && holz && (
+                      <div className="mb-6">
+                          <WoodSelector name="holzart-bestellung" options={product.woodOptions} value={holz.id} onChange={setHolzId} />
+                      </div>
+                  )}
+                  <Picture
+                      src={holz?.images[0] ?? product.images[0]}
+                      alt={holz ? `${product.name} in ${holz.name}` : product.name}
+                      className="w-full h-64 object-cover"
+                  />
               </div>
            </div>
   
@@ -740,7 +862,7 @@ const Footer = () => {
 const Confirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const state = location.state as { ref: string, product: Product, formData: OrderForm } | null;
+    const state = location.state as { ref: string, product: Product, formData: OrderForm, holzName?: string, preis?: number } | null;
   
     useEffect(() => {
         if (!state) {
@@ -763,6 +885,10 @@ const Confirmation = () => {
           <h1 className="font-display text-6xl font-bold mb-6">DANKE.</h1>
           <p className="font-mono text-gray-400 mb-4">Ihre Bestellung wurde erfolgreich übermittelt.</p>
           <p className="font-mono text-gray-400 mb-2">Referenznummer: <span className="text-white font-bold">{state.ref}</span></p>
+          <p className="font-mono text-gray-400 mb-2">
+            {state.product.name}{state.holzName ? `, ${state.holzName}` : ''}
+            {state.preis != null ? ` · ${formatPreis(state.preis)}` : ''}
+          </p>
           <p className="font-mono text-sm text-gray-500 mb-8">Eine Bestätigungs-E-Mail wurde an {state.formData.email} gesendet.</p>
           <Link to="/" className="text-xl font-display underline decoration-1 underline-offset-4 hover:text-gray-300">Zurück zur Startseite</Link>
         </motion.div>
@@ -806,7 +932,7 @@ const Consultation = () => (
                 </div>
                 <div className="aspect-video bg-gray-200 relative overflow-hidden">
                     <Picture
-                        src="/images/echtholzbett_2.jpg"
+                        src="/images/echtholzbett_fichte_gemacht.jpg"
                         alt="Echtholz-Bett aus der Manufaktur Architekt & Meister in Dresden"
                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                     />

@@ -4,16 +4,6 @@
     "height": 640,
     "webp": "/images/background_image.webp"
   },
-  "/images/echtholzbett_1.jpg": {
-    "width": 1536,
-    "height": 1024,
-    "webp": "/images/echtholzbett_1.webp"
-  },
-  "/images/echtholzbett_2.jpg": {
-    "width": 1536,
-    "height": 1024,
-    "webp": "/images/echtholzbett_2.webp"
-  },
   "/images/echtholzbett_drawing_1.jpg": {
     "width": 1800,
     "height": 1273,
@@ -38,5 +28,65 @@
     "width": 1800,
     "height": 1273,
     "webp": "/images/echtholzbett_drawing_5.webp"
+  },
+  "/images/echtholzbett_eiche_detail.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_eiche_detail.webp"
+  },
+  "/images/echtholzbett_eiche_gemacht.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_eiche_gemacht.webp"
+  },
+  "/images/echtholzbett_eiche_gestell.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_eiche_gestell.webp"
+  },
+  "/images/echtholzbett_eiche-schwarz_detail.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_eiche-schwarz_detail.webp"
+  },
+  "/images/echtholzbett_eiche-schwarz_gemacht.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_eiche-schwarz_gemacht.webp"
+  },
+  "/images/echtholzbett_eiche-schwarz_gestell.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_eiche-schwarz_gestell.webp"
+  },
+  "/images/echtholzbett_fichte_detail.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_fichte_detail.webp"
+  },
+  "/images/echtholzbett_fichte_gemacht.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_fichte_gemacht.webp"
+  },
+  "/images/echtholzbett_fichte_gestell.jpg": {
+    "width": 1800,
+    "height": 1208,
+    "webp": "/images/echtholzbett_fichte_gestell.webp"
+  },
+  "/images/holz_eiche-schwarz.jpg": {
+    "width": 120,
+    "height": 120,
+    "webp": "/images/holz_eiche-schwarz.webp"
+  },
+  "/images/holz_eiche.jpg": {
+    "width": 120,
+    "height": 120,
+    "webp": "/images/holz_eiche.webp"
+  },
+  "/images/holz_fichte.jpg": {
+    "width": 120,
+    "height": 120,
+    "webp": "/images/holz_fichte.webp"
   }
 }

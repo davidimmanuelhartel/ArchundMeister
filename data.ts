@@ -1,5 +1,17 @@
 
-import { Product, FaqItem } from './types';
+import { Product, FaqItem, WoodOption } from './types';
+
+/** Aufpreis für Eiche und Eiche schwarz gegenüber Fichte (Bett). */
+export const EICHE_AUFPREIS = 200;
+
+// Bilder je Holzart: gemacht (Hauptbild), Gestell, Detail der Lattenenden
+const bettBilder = (holz: string) => ['gemacht', 'gestell', 'detail'].map((motiv) => `/images/echtholzbett_${holz}_${motiv}.jpg`);
+
+const BETT_HOLZARTEN: WoodOption[] = [
+  { id: 'fichte', name: 'Fichte', note: 'Standard', surcharge: 0, swatch: '/images/holz_fichte.jpg', images: bettBilder('fichte') },
+  { id: 'eiche', name: 'Eiche', note: 'geölt', surcharge: EICHE_AUFPREIS, swatch: '/images/holz_eiche.jpg', images: bettBilder('eiche') },
+  { id: 'eiche-schwarz', name: 'Eiche schwarz', note: 'schwarz gebeizt', surcharge: EICHE_AUFPREIS, swatch: '/images/holz_eiche-schwarz.jpg', images: bettBilder('eiche-schwarz') },
+];
 
 export const PRODUCTS: Product[] = [
   {
@@ -8,14 +20,16 @@ export const PRODUCTS: Product[] = [
     price: 1699.00,
     tagline: 'Schlafende Architektur.',
     description: 'Ein Bett, das länger lebt als die Bäume, aus denen es gefertigt wurde.\n\nIn Handarbeit aus deutschem Echtholz gefügt, mit klassischen Holzverbindungen statt Metall – zeitlos in Konstruktion wie Erscheinung.',
-    material: 'Echtholz, deutsche Fichte (Eiche optional gegen Aufpreis), geölt.',
+    material: 'Echtholz: deutsche Fichte, Eiche oder Eiche schwarz gebeizt, geölt.',
     dimensions: 'B: 120–180 cm, L: 200 cm, H: 20 cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
-    features: ['Massivholz: deutsche Fichte / Eiche', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
+    features: ['Massivholz: Fichte, Eiche oder Eiche schwarz', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
     care: 'Geöltes Massivholz bleibt mit wenig Aufwand schön: trocken abstauben, bei Bedarf mit einem nur leicht feuchten Tuch abwischen und anschließend trockenreiben. Keine Mikrofasertücher, Scheuermittel oder aggressiven Reiniger verwenden. Je nach Beanspruchung genügt es, die Oberfläche etwa einmal im Jahr mit einem handelsüblichen Hartwachsöl nachzuölen – kleine Gebrauchsspuren lassen sich dabei mitbehandeln. Direkte Heizungsluft und dauerhafte pralle Sonne sollten Sie vermeiden, damit das Holz gleichmäßig arbeitet.',
+    woodOptions: BETT_HOLZARTEN,
+    // Alle Bilder (für Suchmaschinen und Vorschau); die Produktseite zeigt die Bilder der gewählten Holzart
+    // und danach die Konstruktionszeichnungen
     images: [
-      '/images/echtholzbett_2.jpg',
-      '/images/echtholzbett_1.jpg',
+      ...BETT_HOLZARTEN.flatMap((holz) => holz.images),
       '/images/echtholzbett_drawing_1.jpg',
       '/images/echtholzbett_drawing_2.jpg',
       '/images/echtholzbett_drawing_3.jpg',
@@ -71,7 +85,7 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Aus welchem Holz wird das Bett gefertigt?',
     answer:
-      'Standardmäßig aus deutscher Fichte. Eiche ist gegen Aufpreis möglich. Das Holz stammt aus nachhaltiger deutscher Forstwirtschaft und ist FSC-zertifiziert, die Oberfläche ist geölt.',
+      `Standardmäßig aus deutscher Fichte. Gegen einen Aufpreis von ${EICHE_AUFPREIS} € fertigen wir es auch aus Eiche, wahlweise natur oder schwarz gebeizt. Das Holz stammt aus nachhaltiger deutscher Forstwirtschaft und ist FSC-zertifiziert, die Oberfläche ist geölt.`,
   },
   {
     question: 'Werden Metallverbindungen verwendet?',
