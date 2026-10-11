@@ -43,6 +43,57 @@ main {
   color: #ffffff;
 }
 
+/* Startseiten-Hero (App.tsx, Hero).
+   Optischer Randausgleich: das M der Überschrift hat 0,06 em Vorbreite. Um diese nach links gerückt,
+   beginnt die Schrift auf derselben Linie wie Logo und Fließtext. */
+.hero-titel {
+  margin-left: -0.06em;
+}
+
+/* Ab 1024 px zwei Spalten über die volle Breite zwischen den Rändern der Kopfzeile: 5fr Text, 7fr Video,
+   3rem Abstand. Das Video beginnt auf der Versalhöhe der Überschrift und endet auf der Grundlinie der
+   letzten Textzeile; der Leerraum zwischen Überschrift und Text gleicht den Rest aus.
+   - Videohöhe: Spaltenbreite im Format 3:2. In niedrigen Fenstern auf die Fensterhöhe begrenzt (das Video
+     wird dann rechtsbündig schmaler), damit das ganze Bett ohne Scrollen zu sehen ist.
+   - Schriftgröße: so groß, dass ENTWORFEN (5,44 em breit) die Textspalte füllt, höchstens 12rem, und klein
+     genug, dass Überschrift (2,73 em) und Textblock (12.5rem: 2.5rem Abstand, 3 + 3 Zeilen) zusammen nicht
+     höher als das Video werden.
+   - Space Grotesk hat 0,70 em Versalhöhe, 0,98 em Ober- und 0,29 em Unterlänge. Bei Zeilenhöhe 0,95
+     liegt die Versalhöhe deshalb 0,12 em unter der Zeilenoberkante. Bei Inter mit Zeilenhöhe 1,625 liegt
+     die Grundlinie 0,4475 em über der Zeilenunterkante. Die negativen Ränder ziehen die Boxen auf diese
+     Linien. */
+@media (min-width: 1024px) {
+  .hero-raster {
+    container-type: inline-size;
+    --hero-video-hoehe: min((100cqw - 3rem) * 7 / 12 / 1.5, 100svh - 14rem);
+  }
+  .hero-titel {
+    margin-top: -0.12em;
+    font-size: min(12rem, (100cqw - 3rem) * 5 / 12 / 5.5, (var(--hero-video-hoehe) - 12.5rem) / 2.73);
+  }
+  .hero-video {
+    width: calc(var(--hero-video-hoehe) * 1.5);
+    height: var(--hero-video-hoehe);
+    margin-left: auto;
+  }
+  .hero-text {
+    padding-top: 2.5rem;
+  }
+  .hero-text-ende {
+    margin-bottom: -0.4475em;
+  }
+  /* Bis gut 1100 px Fensterbreite braucht der erste Absatz in der schmalen Spalte vier Zeilen: Textblock
+     13.5rem bei 1.5rem Abstand. */
+  @container (max-width: 1080px) {
+    .hero-titel {
+      font-size: min(12rem, (100cqw - 3rem) * 5 / 12 / 5.5, (var(--hero-video-hoehe) - 13.5rem) / 2.73);
+    }
+    .hero-text {
+      padding-top: 1.5rem;
+    }
+  }
+}
+
 /* Respect OS-level reduced motion for plain CSS transitions/animations
    (Framer Motion animations are handled separately via MotionConfig) */
 @media (prefers-reduced-motion: reduce) {
