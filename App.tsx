@@ -127,7 +127,9 @@ const Header = ({ toggleMenu, closeMenu, isMenuOpen }: { toggleMenu: () => void,
           <span className="hidden md:block text-sm font-mono uppercase tracking-widest group-hover:tracking-[0.2em] group-hover:text-gray-300 transition-all duration-300">
             {isMenuOpen ? 'Close' : 'Menu'}
           </span>
-          <div className="relative w-11 h-11 flex items-center justify-center">
+          {/* 44px-Tippfläche um das 24px-Icon; die Striche enden 13px vor ihrem Rand. Um diese 13px nach rechts
+              gerückt, enden sie auf dem Seitenrand – bündig mit Hero-Video und Inhalt. */}
+          <div className="relative w-11 h-11 -mr-[13px] flex items-center justify-center">
               <AnimatePresence mode='wait'>
                   {isMenuOpen ? (
                       <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
@@ -249,15 +251,16 @@ const Hero = () => {
   const headline = words.join(' ');
 
   return (
-    <section className="relative min-h-[100svh] flex items-center px-6 pt-28 pb-16 lg:pt-24 lg:pb-12 overflow-hidden bg-am-offwhite">
-      {/* Handy und Tablet hochkant: Überschrift, Video, Text untereinander. Ab lg: Überschrift und Text links,
-          Video rechts über beide Zeilen – das Bett bleibt im Querformat vollständig sichtbar. */}
-      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 lg:gap-y-16 items-center">
-        <div className="lg:col-span-7 lg:row-start-1 lg:self-end">
+    <section className="relative min-h-[100svh] flex items-center px-6 pt-28 pb-16 lg:pb-12 overflow-hidden bg-am-offwhite">
+      {/* Handy und Tablet hochkant: Überschrift, Video, Text untereinander. Ab lg zwei Spalten im Raster der
+          Kopfzeile (gleicher Rand wie Logo und Menü): links oben die Überschrift, links unten der Text, rechts das
+          Video. Maße und Schriftgröße stehen in index.css (.hero-raster). */}
+      <div className="hero-raster w-full grid grid-cols-1 gap-y-10 lg:grid-cols-[5fr_7fr] lg:grid-rows-[auto_1fr_auto] lg:gap-x-12 lg:gap-y-0">
+        <div className="lg:row-start-1">
             {/* The headline is split into per-word elements for the reveal animation, which
                 strips the spaces between words from the DOM. The sr-only copy keeps the
                 full, correctly spaced sentence available to screen readers and crawlers. */}
-            <h1 className="font-display text-huge font-bold leading-[0.95] tracking-tighter uppercase">
+            <h1 className="hero-titel font-display text-huge font-bold leading-[0.95] tracking-tighter uppercase">
                 <span className="sr-only">{headline}</span>
                 <motion.span
                     aria-hidden="true"
@@ -282,19 +285,19 @@ const Hero = () => {
 
         <motion.div
             style={parallax ? { y, opacity } : undefined}
-            className="lg:col-span-5 lg:col-start-8 lg:row-start-1 lg:row-span-2"
+            className="lg:col-start-2 lg:row-start-1 lg:row-span-3 lg:self-start"
         >
-            <div className="relative aspect-[3/2] w-full overflow-hidden bg-am-gray">
+            <div className="hero-video relative aspect-[3/2] w-full overflow-hidden bg-am-gray">
                 <HeroVideo />
             </div>
         </motion.div>
 
-        <div className="lg:col-span-7 lg:row-start-2 lg:self-start">
+        <div className="hero-text lg:row-start-3 lg:self-end">
             <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.8 }}
-                className="font-sans font-normal text-base max-w-md leading-relaxed text-gray-600"
+                className="font-sans font-normal text-base max-w-md leading-relaxed text-pretty text-gray-600"
             >
                 Keine Produktion ohne Entwurf. Kein Entwurf ohne Handwerk.
                 Jedes Stück entsteht in der Begegnung von Architekturdenken und meisterlicher Schreinerkunst.
@@ -304,7 +307,7 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.8 }}
-                className="mt-4 font-sans font-normal text-sm max-w-md leading-relaxed text-gray-500"
+                className="hero-text-ende mt-4 font-sans font-normal text-sm max-w-md leading-relaxed text-pretty text-gray-500"
             >
                 Wir liefern nach Deutschland, in die EU und in die Schweiz, gewähren 14 Tage Rückgaberecht und fertigen jedes Stück in Dresden.
             </motion.p>
@@ -318,6 +321,8 @@ const Hero = () => {
 // Startet erst nach dem Hydrieren per Skript: React schreibt das muted-Attribut nicht ins
 // vorgerenderte HTML, ohne muted blockieren Browser das automatische Abspielen.
 // Bei "Bewegung reduzieren" bleibt das Posterbild stehen.
+// Ab 768 px (Tablet, Desktop) ist das Video 700 px und breiter: dort 1620 × 1080 (volle Auflösung der
+// Quellclips, scharf auf Retina-Displays), auf dem Handy hochkant reicht 1200 × 800.
 const HeroVideo = () => {
   const ref = useRef<HTMLVideoElement>(null);
 
@@ -335,7 +340,6 @@ const HeroVideo = () => {
       initial={{ scale: 1.5, filter: "blur(10px)" }}
       animate={{ scale: 1, filter: "blur(0px)" }}
       transition={{ duration: 1.5, ease: "circOut" }}
-      src="/videos/echtholzbett_loop.mp4"
       poster="/images/echtholzbett_loop_poster.jpg"
       muted
       loop
@@ -343,7 +347,10 @@ const HeroVideo = () => {
       preload="auto"
       aria-hidden="true"
       className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-    />
+    >
+      <source src="/videos/echtholzbett_loop_1620.mp4" type="video/mp4" media="(min-width: 768px)" />
+      <source src="/videos/echtholzbett_loop.mp4" type="video/mp4" />
+    </motion.video>
   );
 };
 
