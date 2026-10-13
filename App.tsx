@@ -19,6 +19,21 @@ const formatPreis = (value: number, ohneCent = false) =>
 const holzart = (product: Product, id: string | null | undefined): WoodOption | null =>
   product.woodOptions?.find((w) => w.id === id) ?? product.woodOptions?.[0] ?? null;
 
+/** Gewählte Breite in cm oder die Vorauswahl (die größte); null bei Produkten ohne Breitenauswahl. */
+const breiteVon = (product: Product, wert: string | number | null | undefined): number | null => {
+  const zahl = Number(wert);
+  return product.widths?.includes(zahl) ? zahl : product.widths?.at(-1) ?? null;
+};
+
+/** Suchparameter für Holz und Breite, nur was von der Vorauswahl abweicht (z. B. "?holz=eiche&breite=160"). */
+const auswahlSuche = (product: Product, holzId: string | null | undefined, breite: number | null) => {
+  const parameter = new URLSearchParams();
+  if (holzId && holzId !== product.woodOptions?.[0]?.id) parameter.set('holz', holzId);
+  if (breite && breite !== product.widths?.at(-1)) parameter.set('breite', String(breite));
+  const text = parameter.toString();
+  return text ? `?${text}` : '';
+};
+
 const BILD_MOTIV: Record<string, string> = {
   gemacht: 'gemacht, mit Leinenbettwäsche',
   gestell: 'Gestell ohne Matratze',
@@ -529,18 +544,44 @@ const WoodSelector = ({ name, options, value, onChange, schmal = false }: { name
     </fieldset>
 );
 
+// Breite in cm, gleiche Optik wie die Holzauswahl (auch "schmal" in der Tablet-Spalte); alle Breiten kosten dasselbe
+const WidthSelector = ({ name, options, value, onChange, schmal = false }: { name: string, options: number[], value: number, onChange: (breite: number) => void, schmal?: boolean }) => (
+    <fieldset>
+        <legend className="font-mono text-sm uppercase text-gray-500 mb-3">Breite</legend>
+        <div className={`grid grid-cols-3 gap-2 ${schmal ? 'md:grid-cols-1 lg:grid-cols-3' : ''}`}>
+            {options.map((breite) => {
+                const aktiv = breite === value;
+                return (
+                    <label
+                        key={breite}
+                        className={`flex cursor-pointer flex-col gap-3 border p-3 transition-colors duration-300 ${schmal ? 'md:flex-row md:items-center lg:flex-col lg:items-start' : ''} has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-black ${aktiv ? 'border-black bg-white' : 'border-gray-300 hover:border-black'}`}
+                    >
+                        <input type="radio" name={name} value={breite} checked={aktiv} onChange={() => onChange(breite)} className="sr-only" />
+                        <span className="font-display text-sm font-bold uppercase leading-tight">{breite} cm</span>
+                        <span className="font-mono text-xs text-gray-500">× 200 cm</span>
+                    </label>
+                );
+            })}
+        </div>
+    </fieldset>
+);
+
 const ProductDetail = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const productId = location.pathname.split('/').pop();
     const product = PRODUCTS.find(p => p.id === productId);
-    // Startet immer mit der Standard-Holzart, damit die vorgerenderte Seite beim Hydrieren passt;
-    // eine Holzart aus dem Link (?holz=eiche) wird danach übernommen
+    // Startet immer mit der Standard-Holzart und der größten Breite, damit die vorgerenderte Seite beim
+    // Hydrieren passt; Holzart und Breite aus dem Link (?holz=eiche&breite=160) werden danach übernommen
     const [holzId, setHolzId] = useState<string | null>(product?.woodOptions?.[0]?.id ?? null);
+    const [breite, setBreite] = useState<number | null>(product ? breiteVon(product, null) : null);
 
     useEffect(() => {
-        const ausLink = new URLSearchParams(location.search).get('holz');
+        const suche = new URLSearchParams(location.search);
+        const ausLink = suche.get('holz');
         if (ausLink && product?.woodOptions?.some((w) => w.id === ausLink)) setHolzId(ausLink);
+        const breiteAusLink = Number(suche.get('breite'));
+        if (product?.widths?.includes(breiteAusLink)) setBreite(breiteAusLink);
     }, [location.search, product]);
 
     if (!product) return null;
@@ -556,7 +597,12 @@ const ProductDetail = () => {
 
     const waehleHolz = (id: string) => {
         setHolzId(id);
-        navigate({ search: id === product.woodOptions?.[0]?.id ? '' : `?holz=${id}` }, { replace: true });
+        navigate({ search: auswahlSuche(product, id, breite) }, { replace: true });
+    };
+
+    const waehleBreite = (wert: number) => {
+        setBreite(wert);
+        navigate({ search: auswahlSuche(product, holz?.id, wert) }, { replace: true });
     };
 
     return (
@@ -616,6 +662,12 @@ const ProductDetail = () => {
                         </div>
                     )}
 
+                    {product.widths && breite && (
+                        <div className="mb-8">
+                            <WidthSelector name="breite" options={product.widths} value={breite} onChange={waehleBreite} schmal />
+                        </div>
+                    )}
+
                     <div className="space-y-6">
                         {product.features && product.features.length > 0 && (
                             <ul className="space-y-2">
@@ -642,7 +694,7 @@ const ProductDetail = () => {
                     </div>
 
                     <Link
-                        to={`/checkout?product=${product.id}${holz ? `&holz=${holz.id}` : ''}`}
+                        to={`/checkout?product=${product.id}${holz ? `&holz=${holz.id}` : ''}${breite ? `&breite=${breite}` : ''}`}
                         className="block mt-12 w-full bg-black text-white border border-black text-center py-4 px-8 font-display font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-all duration-300 shadow-lg"
                     >
                         Kaufen
@@ -708,6 +760,8 @@ const Checkout = () => {
     // Holzart aus der Produktseite (?holz=…), im Formular weiter änderbar
     const [holzId, setHolzId] = useState<string | null>(() => (product ? holzart(product, queryParams.get('holz'))?.id ?? null : null));
     const holz = product ? holzart(product, holzId) : null;
+    // Breite aus der Produktseite (?breite=…), ebenfalls im Formular änderbar
+    const [breite, setBreite] = useState<number | null>(() => (product ? breiteVon(product, queryParams.get('breite')) : null));
     const preis = product ? product.price + (holz?.surcharge ?? 0) : 0;
 
     const [formData, setFormData] = useState<OrderForm>({
@@ -743,6 +797,7 @@ const Checkout = () => {
             productName: product.name,
             productPrice: preis,
             woodId: holz?.id,
+            widthCm: breite ?? undefined,
           }),
         });
         const data = await res.json();
@@ -758,6 +813,7 @@ const Checkout = () => {
             formData,
             orderId: data.orderId,
             holzName: holz?.name,
+            breite,
             preis,
           },
         });
@@ -781,12 +837,18 @@ const Checkout = () => {
                       <span className="font-display text-2xl font-bold">
                           {product.name}
                           {holz && <span className="block font-mono text-sm font-normal text-gray-500 mt-1">Holzart: {holz.name}</span>}
+                          {breite && <span className="block font-mono text-sm font-normal text-gray-500 mt-1">Größe: {breite} × 200 cm</span>}
                       </span>
                       <span className="font-mono" aria-live="polite">{formatPreis(preis)}</span>
                   </div>
                   {product.woodOptions && holz && (
                       <div className="mb-6">
                           <WoodSelector name="holzart-bestellung" options={product.woodOptions} value={holz.id} onChange={setHolzId} />
+                      </div>
+                  )}
+                  {product.widths && breite && (
+                      <div className="mb-6">
+                          <WidthSelector name="breite-bestellung" options={product.widths} value={breite} onChange={setBreite} />
                       </div>
                   )}
                   <Picture
@@ -895,7 +957,7 @@ const Footer = () => {
 const Confirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const state = location.state as { ref: string, product: Product, formData: OrderForm, holzName?: string, preis?: number } | null;
+    const state = location.state as { ref: string, product: Product, formData: OrderForm, holzName?: string, breite?: number | null, preis?: number } | null;
   
     useEffect(() => {
         if (!state) {
@@ -919,7 +981,7 @@ const Confirmation = () => {
           <p className="font-mono text-gray-400 mb-4">Ihre Bestellung wurde erfolgreich übermittelt.</p>
           <p className="font-mono text-gray-400 mb-2">Referenznummer: <span className="text-white font-bold">{state.ref}</span></p>
           <p className="font-mono text-gray-400 mb-2">
-            {state.product.name}{state.holzName ? `, ${state.holzName}` : ''}
+            {state.product.name}{state.holzName ? `, ${state.holzName}` : ''}{state.breite ? `, ${state.breite} × 200 cm` : ''}
             {state.preis != null ? ` · ${formatPreis(state.preis)}` : ''}
           </p>
           <p className="font-mono text-sm text-gray-500 mb-8">Eine Bestätigungs-E-Mail wurde an {state.formData.email} gesendet.</p>

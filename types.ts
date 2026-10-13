@@ -26,6 +26,8 @@ export interface Product {
   features?: string[];
   care?: string;
   woodOptions?: WoodOption[];
+  /** Wählbare Breiten in cm, aufsteigend, alle zum selben Preis. Vorausgewählt ist die größte. */
+  widths?: number[];
 }
 
 export interface FaqItem {
