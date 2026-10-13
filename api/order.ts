@@ -19,6 +19,8 @@ interface OrderBody {
   productPrice: number;
   /** Gewählte Holzart (id aus data.ts, z. B. "eiche"); fehlt bei Produkten ohne Holzauswahl. */
   woodId?: string;
+  /** Gewählte Breite in cm (140, 160 oder 180); fehlt bei Produkten ohne Breitenauswahl. */
+  widthCm?: number;
 }
 
 // Anzeigenamen der Holzarten wie in data.ts. Bewusst hier wiederholt: die Serverless-Funktion
@@ -29,10 +31,14 @@ const HOLZARTEN: Record<string, string> = {
   'eiche-schwarz': 'Eiche schwarz gebeizt',
 };
 
-type OrderData = OrderBody & { reference: string; formattedPrice: string; woodName?: string };
+// Breiten wie widths in data.ts, aus demselben Grund hier wiederholt
+const BREITEN = [140, 160, 180];
 
+type OrderData = OrderBody & { reference: string; formattedPrice: string; woodName?: string; sizeName?: string };
+
+// Holzart und Größe als Zeilen in beiden Mails, jeweils nur wenn gewählt
 const woodRow = (orderData: OrderData, html: (label: string, value: string) => string) =>
-  orderData.woodName ? html('Holzart', orderData.woodName) : '';
+  (orderData.woodName ? html('Holzart', orderData.woodName) : '') + (orderData.sizeName ? html('Größe', orderData.sizeName) : '');
 
 function buildCustomerEmailHtml(orderData: OrderData) {
   return `<!DOCTYPE html>
@@ -121,7 +127,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { name, email, phone, street, houseNumber, postcode, country, productId, productName, productPrice, woodId } = body;
+  const { name, email, phone, street, houseNumber, postcode, country, productId, productName, productPrice, woodId, widthCm } = body;
   if (!name || !email || !street || !houseNumber || !postcode || !country || !productId || !productName || productPrice == null) {
     return new Response(
       JSON.stringify({ success: false, error: 'Missing required fields' }),
@@ -135,8 +141,15 @@ export async function POST(request: Request) {
       { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
     );
   }
-  // Die Holzart landet im Produktnamen der Datenbank, so braucht die Tabelle keine neue Spalte
-  const storedProductName = woodName ? `${productName} – ${woodName}` : productName;
+  if (widthCm != null && !BREITEN.includes(Number(widthCm))) {
+    return new Response(
+      JSON.stringify({ success: false, error: 'Unbekannte Breite' }),
+      { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
+  }
+  const sizeName = widthCm != null ? `${Number(widthCm)} × 200 cm` : undefined;
+  // Holzart und Größe landen im Produktnamen der Datenbank, so braucht die Tabelle keine neue Spalte
+  const storedProductName = [productName, woodName, sizeName].filter(Boolean).join(' – ');
 
   const ref = `AM-${new Date().getFullYear()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
   const sql = neon(dbUrl);
@@ -158,7 +171,7 @@ export async function POST(request: Request) {
   }
 
   const formattedPrice = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(productPrice);
-  const orderData: OrderData = { ...body, reference: ref, formattedPrice, woodName };
+  const orderData: OrderData = { ...body, reference: ref, formattedPrice, woodName, sizeName };
 
   if (resendKey) {
     try {

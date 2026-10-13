@@ -21,11 +21,14 @@ export const PRODUCTS: Product[] = [
     tagline: 'Schlafende Architektur.',
     description: 'Ein Bett, das länger lebt als die Bäume, aus denen es gefertigt wurde.\n\nIn Handarbeit aus deutschem Echtholz gefügt, mit klassischen Holzverbindungen statt Metall – zeitlos in Konstruktion wie Erscheinung.',
     material: 'Echtholz: deutsche Fichte, Eiche oder Eiche schwarz gebeizt, geölt.',
-    dimensions: 'B: 120–180 cm, L: 200 cm, H: 20 cm',
+    // geschützte Leerzeichen (\u00a0): Zahl und Einheit bleiben zusammen, umgebrochen wird nur nach einem Komma
+    dimensions: 'B:\u00a0140, 160 oder 180\u00a0cm, L:\u00a0200\u00a0cm, H:\u00a020\u00a0cm',
     sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
     features: ['Massivholz: Fichte, Eiche oder Eiche schwarz', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
     care: 'Geöltes Massivholz bleibt mit wenig Aufwand schön: trocken abstauben, bei Bedarf mit einem nur leicht feuchten Tuch abwischen und anschließend trockenreiben. Keine Mikrofasertücher, Scheuermittel oder aggressiven Reiniger verwenden. Je nach Beanspruchung genügt es, die Oberfläche etwa einmal im Jahr mit einem handelsüblichen Hartwachsöl nachzuölen – kleine Gebrauchsspuren lassen sich dabei mitbehandeln. Direkte Heizungsluft und dauerhafte pralle Sonne sollten Sie vermeiden, damit das Holz gleichmäßig arbeitet.',
     woodOptions: BETT_HOLZARTEN,
+    // vorausgewählt ist 180, in dieser Breite sind alle Produktbilder gerendert
+    widths: [140, 160, 180],
     // Alle Bilder (für Suchmaschinen und Vorschau); die Produktseite zeigt die Bilder der gewählten Holzart
     // und danach die Konstruktionszeichnungen
     images: [
@@ -95,7 +98,7 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Welche Maße sind möglich?',
     answer:
-      'Das Bett gibt es in Breiten von 120 bis 180 cm bei 200 cm Länge und 20 cm Höhe. Abweichende Maße sind als Sonderanfertigung nach Absprache möglich.',
+      'Das Bett gibt es in 140, 160 oder 180 cm Breite bei 200 cm Länge und 20 cm Höhe. Abweichende Maße sind als Sonderanfertigung nach Absprache möglich.',
   },
   {
     question: 'Gibt es ein Rückgaberecht?',
