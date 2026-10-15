@@ -84,7 +84,7 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Wie lange dauert die Fertigung?',
     answer:
-      'Wir bauen jedes Stück erst nach Ihrer Bestellung. Die Fertigung dauert in der Regel 4 bis 6 Wochen ab Zahlungseingang, danach verschicken wir es.',
+      'Wir beginnen mit dem Bau erst nach Ihrer Bestellung. Die Fertigung dauert in der Regel 4 bis 6 Wochen ab Zahlungseingang, danach verschicken wir Ihr Bett.',
   },
   {
     question: 'Aus welchem Holz ist das Bett?',

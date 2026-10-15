@@ -324,8 +324,8 @@ const Hero = () => {
                 transition={{ delay: 1.5, duration: 0.8 }}
                 className="hero-text-ende mt-4 font-sans font-normal text-sm max-w-md leading-relaxed text-pretty text-gray-500"
             >
-                Wir bauen jedes Stück erst nach Ihrer Bestellung und liefern nach Deutschland, in die EU und in die
-                Schweiz. Bis zum Beginn der Fertigung können Sie kostenfrei stornieren.
+                Wir bauen erst nach Ihrer Bestellung und liefern nach Deutschland, in die EU und in die Schweiz.
+                Bis zum Beginn der Fertigung können Sie kostenfrei stornieren.
             </motion.p>
         </div>
       </div>
@@ -384,7 +384,7 @@ const HorizontalPhilosophy = () => {
             <div className="w-[85vw] md:w-[40vw] flex flex-col justify-center">
                 <h2 className="font-display text-big font-bold leading-none mb-8">DAS<br/>KONZEPT</h2>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">
-                    Bei uns arbeiten ein Architekt und ein Schreiner an jedem Möbel. Der eine zeichnet es,
+                    Bei uns arbeiten ein Architekt und ein Schreiner zusammen. Der eine zeichnet ein Möbel,
                     der andere baut es in Dresden.
                 </p>
                 <ArrowRight className="mt-8 text-white" size={32} />
@@ -394,14 +394,14 @@ const HorizontalPhilosophy = () => {
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
                 <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">ARCHITEKT</h3>
                 <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Entwurf</p>
-                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Niclas Schlötke ist Architekt. Er entwirft jedes Möbel nach den Prinzipien seines Fachs: Proportion, Silhouette und Balance.</p>
+                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Niclas Schlötke ist Architekt. Er entwirft unsere Möbel nach den Prinzipien seines Fachs: Proportion, Silhouette und Balance.</p>
             </div>
 
             {/* Meister Card */}
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
                 <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">MEISTER</h3>
                 <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Handwerk</p>
-                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Lukas Westphalen ist Schreiner und hat zehn Jahre Erfahrung im Handwerk. Er baut jedes Stück in Dresden von Hand und fügt es mit Holzverbindungen.</p>
+                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Lukas Westphalen ist Schreiner und hat zehn Jahre Erfahrung im Handwerk. Er baut die Möbel in Dresden von Hand und fügt sie mit Holzverbindungen.</p>
             </div>
 
              {/* CTA Card */}
