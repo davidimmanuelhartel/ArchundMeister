@@ -117,15 +117,14 @@ const holzarten = (p) =>
 
 const llms = `# Architekt & Meister
 
-> Möbelmanufaktur in Dresden. Massivholzmöbel, entworfen von einem Architekten und
-> gebaut von einem Schreiner. Jedes Stück wird auf Bestellung gefertigt –
-> es gibt keine Lagerware.
+> Massivholzmöbel aus Dresden. Ein Architekt entwirft sie, ein Schreiner baut sie.
+> Wir bauen jedes Stück erst nach der Bestellung und haben keine Lagerware.
 
 ## Eckdaten
 
 - Standort: Buchenstraße 20, 01097 Dresden, Deutschland
 - Team: Niclas Schlötke (Architekt, Entwurf) und Lukas Westphalen (Schreiner, Fertigung)
-- Kleinunternehmer nach § 19 UStG – es wird keine Umsatzsteuer ausgewiesen
+- Kleinunternehmer nach § 19 UStG, wir weisen keine Umsatzsteuer aus
 - Kontakt: architektundmeister@gmail.com, +49 151 22807682
 - Fertigungszeit: ca. 4–6 Wochen nach Zahlungseingang
 - Lieferung: Deutschland, EU und Schweiz

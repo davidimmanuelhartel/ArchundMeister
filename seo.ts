@@ -20,7 +20,7 @@ const businessNode: Record<string, unknown> = {
   '@id': `${SITE_URL}/#business`,
   name: SITE_NAME,
   description:
-    'Möbelmanufaktur aus Dresden. Handgefertigte Massivholzmöbel, entworfen von einem Architekten und gebaut von einem Schreiner.',
+    'Massivholzmöbel aus Dresden. Ein Architekt entwirft sie, ein Schreiner baut sie von Hand.',
   url: SITE_URL,
   email: 'architektundmeister@gmail.com',
   telephone: '+4915122807682',
@@ -122,13 +122,13 @@ const STATIC_SEO: Record<string, Omit<SeoData, 'canonical' | 'image'> & { image?
   '/': {
     title: 'Architekt & Meister – Handgefertigte Massivholzmöbel aus Dresden',
     description:
-      'Massivholzmöbel aus Dresden, entworfen von einem Architekten und gebaut von einem Schreiner. Handgefertigt aus deutscher Fichte oder Eiche, mit klassischen Holzverbindungen statt Metall.',
+      'Massivholzmöbel aus Dresden: Ein Architekt entwirft sie, ein Schreiner baut sie von Hand aus deutscher Fichte oder Eiche und fügt sie ohne Schrauben.',
     jsonLd: [businessNode, websiteNode],
   },
   '/shop': {
     title: 'Kollektion – Massivholzmöbel auf Bestellung | Architekt & Meister',
     description:
-      'Unsere Kollektion handgefertigter Massivholzmöbel: Echtholz-Bett aus deutscher Fichte oder Eiche, gefertigt in Dresden. Jedes Stück entsteht auf Bestellung.',
+      'Massivholzmöbel von Architekt & Meister: das Echtholz Bett aus deutscher Fichte oder Eiche. Wir bauen jedes Stück erst nach der Bestellung in Dresden.',
     jsonLd: [
       {
         '@type': 'CollectionPage',
@@ -181,7 +181,7 @@ const STATIC_SEO: Record<string, Omit<SeoData, 'canonical' | 'image'> & { image?
   },
   '/confirmation': {
     title: 'Bestellbestätigung | Architekt & Meister',
-    description: 'Ihre Bestellung bei Architekt & Meister wurde übermittelt.',
+    description: 'Wir haben Ihre Bestellung erhalten.',
     noindex: true,
   },
 };
@@ -214,7 +214,8 @@ export function getSeo(pathname: string): SeoData {
       const firstLocalImage = product.images.find((img) => img.startsWith('/'));
       return {
         title: `${product.name} – ${product.tagline} | Architekt & Meister`,
-        description: `${product.description.split('\n')[0]} ${product.material} Handgefertigt in Dresden, Lieferzeit ca. 4–6 Wochen.`,
+        // Fertigungszeit, nicht Lieferzeit: versendet wird erst danach
+        description: `${product.description.split('\n')[0]} ${product.material} Fertigung in der Regel 4–6 Wochen ab Zahlungseingang.`,
         canonical,
         image: firstLocalImage ? `${SITE_URL}${firstLocalImage}` : DEFAULT_IMAGE,
         noindex: product.comingSoon,
@@ -237,7 +238,7 @@ export function getSeo(pathname: string): SeoData {
 
   return {
     title: `Seite nicht gefunden | ${SITE_NAME}`,
-    description: 'Die aufgerufene Seite existiert nicht.',
+    description: 'Unter dieser Adresse gibt es keine Seite.',
     canonical,
     image: DEFAULT_IMAGE,
     noindex: true,

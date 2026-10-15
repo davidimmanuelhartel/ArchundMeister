@@ -314,8 +314,8 @@ const Hero = () => {
                 transition={{ delay: 1.2, duration: 0.8 }}
                 className="font-sans font-normal text-base max-w-md leading-relaxed text-pretty text-gray-600"
             >
-                Keine Produktion ohne Entwurf. Kein Entwurf ohne Handwerk.
-                Jedes Stück entsteht in der Begegnung von Architekturdenken und meisterlicher Schreinerkunst.
+                Niclas Schlötke entwirft unsere Möbel als Architekt. Lukas Westphalen baut sie als Schreiner
+                in Dresden aus Massivholz.
             </motion.p>
 
             <motion.p
@@ -324,7 +324,8 @@ const Hero = () => {
                 transition={{ delay: 1.5, duration: 0.8 }}
                 className="hero-text-ende mt-4 font-sans font-normal text-sm max-w-md leading-relaxed text-pretty text-gray-500"
             >
-                Wir liefern nach Deutschland, in die EU und in die Schweiz, gewähren 14 Tage Rückgaberecht und fertigen jedes Stück in Dresden.
+                Wir bauen erst nach Ihrer Bestellung und liefern nach Deutschland, in die EU und in die Schweiz.
+                Bis zum Beginn der Fertigung können Sie kostenfrei stornieren.
             </motion.p>
         </div>
       </div>
@@ -383,8 +384,8 @@ const HorizontalPhilosophy = () => {
             <div className="w-[85vw] md:w-[40vw] flex flex-col justify-center">
                 <h2 className="font-display text-big font-bold leading-none mb-8">DAS<br/>KONZEPT</h2>
                 <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">
-                    In einer Welt der Massenproduktion kehren wir zurück zum Ursprung.
-                    Die Synthese zweier Disziplinen.
+                    Bei uns arbeiten ein Architekt und ein Schreiner zusammen. Der eine zeichnet ein Möbel,
+                    der andere baut es in Dresden.
                 </p>
                 <ArrowRight className="mt-8 text-white" size={32} />
             </div>
@@ -392,20 +393,20 @@ const HorizontalPhilosophy = () => {
             {/* Architekt Card */}
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
                 <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">ARCHITEKT</h3>
-                <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Fokus</p>
-                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Proportion. Silhouette. Balance. Der Entwurf folgt keinen Trends, sondern architektonischen Prinzipien.</p>
+                <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Entwurf</p>
+                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Niclas Schlötke ist Architekt. Er entwirft unsere Möbel nach den Prinzipien seines Fachs: Proportion, Silhouette und Balance.</p>
             </div>
 
             {/* Meister Card */}
             <div className="w-[85vw] md:w-[60vw] h-[70vh] flex flex-col justify-center">
                 <h3 className="font-display text-5xl md:text-7xl font-bold mb-8">MEISTER</h3>
                 <p className="font-mono text-sm uppercase tracking-widest mb-4 border-b border-white/20 pb-2 w-fit">Handwerk</p>
-                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Materialwissen. Präzision. 10 Jahre Erfahrung. Keine Maschine ersetzt das Auge des Meisters.</p>
+                <p className="font-mono text-lg md:text-xl leading-relaxed text-gray-400 max-w-md">Lukas Westphalen ist Schreiner und hat zehn Jahre Erfahrung im Handwerk. Er baut die Möbel in Dresden von Hand und fügt sie mit Holzverbindungen.</p>
             </div>
 
              {/* CTA Card */}
              <div className="w-[85vw] md:w-[40vw] flex flex-col justify-center items-center text-center">
-                <p className="font-display text-4xl mb-8 font-bold">Bereit für Ihr Unikat?</p>
+                <p className="font-display text-4xl mb-8 font-bold">Möbel nach Ihren Maßen</p>
                 <Link
                     to="/beratung"
                     className="inline-block px-10 py-5 bg-white text-black border border-white font-display font-bold text-xl uppercase tracking-wide hover:bg-black hover:text-white hover:border-white transition-all duration-300 shadow-lg"
@@ -413,7 +414,7 @@ const HorizontalPhilosophy = () => {
                     Beratung starten
                 </Link>
                 <p className="mt-6 font-mono text-base leading-relaxed text-gray-400 max-w-xs">
-                    Ein Stück, das länger lebt als die Bäume, aus denen es gefertigt wurde.
+                    Sonderanfertigungen planen wir mit Ihnen im Atelier in Dresden oder in einem digitalen Termin.
                 </p>
             </div>
   
@@ -751,6 +752,9 @@ const ProductDetail = () => {
     );
 };
 
+// Fehlertext für jede gescheiterte Bestellung: sagt, was passiert ist und was hilft
+const BESTELLFEHLER = 'Wir konnten Ihre Bestellung nicht senden. Bitte versuchen Sie es noch einmal oder schreiben Sie an architektundmeister@gmail.com.';
+
 const Checkout = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -803,7 +807,7 @@ const Checkout = () => {
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data.error || 'Bestellung fehlgeschlagen.');
+          throw new Error(data.error || `HTTP ${res.status}`);
         }
 
         navigate('/confirmation', {
@@ -818,8 +822,9 @@ const Checkout = () => {
           },
         });
       } catch (err) {
+        // Technische Meldungen ("Failed to fetch", Datenbankfehler) nur in die Konsole, auf der Seite steht BESTELLFEHLER
         console.error('Order submission error:', err);
-        setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+        setError(BESTELLFEHLER);
         setIsSubmitting(false);
       }
     };
@@ -902,7 +907,7 @@ const Checkout = () => {
                     disabled={isSubmitting}
                     className="w-full bg-black text-white border border-black py-5 font-display font-bold text-xl uppercase tracking-wide hover:bg-white hover:text-black transition-all duration-300 mt-12 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isSubmitting ? 'Wird gesendet...' : 'Bestellung Abschliessen'}
+                    {isSubmitting ? 'Wird gesendet …' : 'Bestellung abschließen'}
                 </motion.button>
            </form>
         </div>
@@ -921,7 +926,7 @@ const Footer = () => {
                     <div className="grid md:grid-cols-2 gap-12">
                         <div>
                             <p className="font-mono text-lg text-gray-400 max-w-md">
-                                Interessiert an einem maßgefertigten Stück oder einer architektonischen Beratung?
+                                Für ein Möbel nach Maß oder eine Beratung durch unseren Architekten schreiben Sie uns oder rufen Sie an.
                             </p>
                             <a href="mailto:architektundmeister@gmail.com" className="inline-block mt-8 text-2xl font-display border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition-colors">
                                 architektundmeister@gmail.com
@@ -978,13 +983,13 @@ const Confirmation = () => {
         >
           <div className="absolute top-0 left-0 w-full h-1 bg-white animate-[loading_2s_ease-in-out]" />
           <h1 className="font-display text-6xl font-bold mb-6">DANKE.</h1>
-          <p className="font-mono text-gray-400 mb-4">Ihre Bestellung wurde erfolgreich übermittelt.</p>
+          <p className="font-mono text-gray-400 mb-4">Wir haben Ihre Bestellung erhalten.</p>
           <p className="font-mono text-gray-400 mb-2">Referenznummer: <span className="text-white font-bold">{state.ref}</span></p>
           <p className="font-mono text-gray-400 mb-2">
             {state.product.name}{state.holzName ? `, ${state.holzName}` : ''}{state.breite ? `, ${state.breite} × 200 cm` : ''}
             {state.preis != null ? ` · ${formatPreis(state.preis)}` : ''}
           </p>
-          <p className="font-mono text-sm text-gray-500 mb-8">Eine Bestätigungs-E-Mail wurde an {state.formData.email} gesendet.</p>
+          <p className="font-mono text-sm text-gray-500 mb-8">Wir haben Ihnen eine Bestätigung an {state.formData.email} geschickt.</p>
           <Link to="/" className="text-xl font-display underline decoration-1 underline-offset-4 hover:text-gray-300">Zurück zur Startseite</Link>
         </motion.div>
       </div>
@@ -1044,7 +1049,7 @@ const NotFound = () => (
             <p className="font-mono text-sm uppercase tracking-widest text-gray-500 mb-4">Fehler 404</p>
             <h1 className="font-display text-big font-bold leading-none uppercase mb-8">Seite nicht gefunden</h1>
             <p className="font-sans text-lg text-gray-600 max-w-md mb-12">
-                Die aufgerufene Seite existiert nicht oder wurde verschoben.
+                Unter dieser Adresse gibt es keine Seite.
             </p>
             <div className="flex flex-wrap gap-6 font-display text-xl font-bold uppercase">
                 <Link to="/" className="border-b border-black pb-1 hover:text-gray-600 transition-colors">Zur Startseite</Link>
