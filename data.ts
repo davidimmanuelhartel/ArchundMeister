@@ -19,13 +19,14 @@ export const PRODUCTS: Product[] = [
     name: 'Echtholz Bett',
     price: 1699.00,
     tagline: 'Schlafende Architektur.',
-    description: 'Ein Bett, das länger lebt als die Bäume, aus denen es gefertigt wurde.\n\nIn Handarbeit aus deutschem Echtholz gefügt, mit klassischen Holzverbindungen statt Metall – zeitlos in Konstruktion wie Erscheinung.',
+    // Der erste Absatz steht auch in der Meta-Beschreibung und im Produkt-Schema (seo.ts)
+    description: 'Ein Massivholzbett, das wir erst nach Ihrer Bestellung in Dresden bauen.\n\nWir verwenden Fichte oder Eiche aus deutscher Forstwirtschaft, ölen das Holz und fügen die Teile mit Holzverbindungen, ohne Schrauben. Ein Schreiner kann das Bett deshalb später reparieren.',
     material: 'Echtholz: deutsche Fichte, Eiche oder Eiche schwarz gebeizt, geölt.',
     // geschützte Leerzeichen (\u00a0): Zahl und Einheit bleiben zusammen, umgebrochen wird nur nach einem Komma
     dimensions: 'B:\u00a0140, 160 oder 180\u00a0cm, L:\u00a0200\u00a0cm, H:\u00a020\u00a0cm',
-    sustainability: 'Holz aus nachhaltiger deutscher Forstwirtschaft (FSC zertifiziert).',
-    features: ['Massivholz: Fichte, Eiche oder Eiche schwarz', 'Klassische Holzverbindungen statt Metall', 'Individuell handgefertigt', 'FSC-zertifiziertes Holz'],
-    care: 'Geöltes Massivholz bleibt mit wenig Aufwand schön: trocken abstauben, bei Bedarf mit einem nur leicht feuchten Tuch abwischen und anschließend trockenreiben. Keine Mikrofasertücher, Scheuermittel oder aggressiven Reiniger verwenden. Je nach Beanspruchung genügt es, die Oberfläche etwa einmal im Jahr mit einem handelsüblichen Hartwachsöl nachzuölen – kleine Gebrauchsspuren lassen sich dabei mitbehandeln. Direkte Heizungsluft und dauerhafte pralle Sonne sollten Sie vermeiden, damit das Holz gleichmäßig arbeitet.',
+    sustainability: 'FSC-zertifiziertes Holz aus deutscher Forstwirtschaft.',
+    features: ['Massivholz: Fichte, Eiche oder Eiche schwarz', 'Holzverbindungen ohne Schrauben', 'Von Hand gebaut in Dresden', 'FSC-zertifiziertes Holz'],
+    care: 'Stauben Sie das Holz trocken ab. Bei Flecken wischen Sie mit einem leicht feuchten Tuch darüber und reiben die Stelle gleich trocken. Verwenden Sie keine Mikrofasertücher, Scheuermittel oder scharfen Reiniger. Je nach Beanspruchung reicht es, die Oberfläche etwa einmal im Jahr mit einem handelsüblichen Hartwachsöl nachzuölen; kleine Gebrauchsspuren behandeln Sie dabei mit. Stellen Sie das Bett nicht direkt an die Heizung oder in pralle Sonne, damit das Holz gleichmäßig arbeitet.',
     woodOptions: BETT_HOLZARTEN,
     // vorausgewählt ist 180, in dieser Breite sind alle Produktbilder gerendert
     widths: [140, 160, 180],
@@ -83,22 +84,22 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Wie lange dauert die Fertigung?',
     answer:
-      'Wir fertigen jedes Stück erst nach Ihrer Bestellung an. Die Fertigungszeit beträgt in der Regel etwa 4 bis 6 Wochen ab Zahlungseingang, danach folgt der Versand.',
+      'Wir bauen jedes Stück erst nach Ihrer Bestellung. Die Fertigung dauert in der Regel 4 bis 6 Wochen ab Zahlungseingang, danach verschicken wir es.',
   },
   {
-    question: 'Aus welchem Holz wird das Bett gefertigt?',
+    question: 'Aus welchem Holz ist das Bett?',
     answer:
-      `Standardmäßig aus deutscher Fichte. Gegen einen Aufpreis von ${EICHE_AUFPREIS} € fertigen wir es auch aus Eiche, wahlweise natur oder schwarz gebeizt. Das Holz stammt aus nachhaltiger deutscher Forstwirtschaft und ist FSC-zertifiziert, die Oberfläche ist geölt.`,
+      `Aus deutscher Fichte. Für ${EICHE_AUFPREIS} € Aufpreis bauen wir es aus Eiche, natur oder schwarz gebeizt. Das Holz stammt aus deutscher Forstwirtschaft und ist FSC-zertifiziert. Wir ölen die Oberfläche.`,
   },
   {
-    question: 'Werden Metallverbindungen verwendet?',
+    question: 'Verwenden Sie Schrauben oder Metallbeschläge?',
     answer:
-      'Nein. Das Bett wird mit klassischen Holzverbindungen gefügt statt mit Metallbeschlägen – das ist konstruktiv langlebiger und bleibt reparierbar.',
+      'Nein. Wir fügen das Bett mit Holzverbindungen. Ein Schreiner kann es deshalb später reparieren.',
   },
   {
     question: 'Welche Maße sind möglich?',
     answer:
-      'Das Bett gibt es in 140, 160 oder 180 cm Breite bei 200 cm Länge und 20 cm Höhe. Abweichende Maße sind als Sonderanfertigung nach Absprache möglich.',
+      'Das Bett gibt es in 140, 160 oder 180 cm Breite, jeweils 200 cm lang und 20 cm hoch. Andere Maße bauen wir als Sonderanfertigung nach Absprache.',
   },
   {
     question: 'Gibt es ein Rückgaberecht?',
@@ -108,12 +109,12 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Wohin liefert Architekt & Meister?',
     answer:
-      'Wir liefern nach Deutschland, in die EU und in die Schweiz. Die Versandkosten werden gesondert berechnet und kommen zum angegebenen Preis hinzu.',
+      'Wir liefern nach Deutschland, in die EU und in die Schweiz. Die Versandkosten berechnen wir gesondert, sie kommen zum Preis hinzu.',
   },
   {
     question: 'Wer steckt hinter Architekt & Meister?',
     answer:
-      'Hinter Architekt & Meister stehen zwei Personen in Dresden: Niclas Schlötke verantwortet als Architekt den Entwurf, Lukas Westphalen als Schreiner die Fertigung. Daher der Name – der Entwurf folgt architektonischen Prinzipien, die Ausführung meisterlicher Schreinerkunst.',
+      'Niclas Schlötke entwirft die Möbel als Architekt, Lukas Westphalen baut sie als Schreiner. Beide arbeiten in Dresden.',
   },
 ];
 
@@ -149,7 +150,7 @@ Diese AGB gelten für alle Bestellungen über den Onlineshop von Architekt & Mei
 Vertragspartner: Einzelunternehmen Lukas Westphalen.
 
 **§3 Vertragsschluss**
-Die Produktdarstellungen sind unverbindlich. Mit Absenden der Bestellung gibst du ein verbindliches Angebot ab.
+Die Produktdarstellungen sind unverbindlich. Mit Absenden der Bestellung geben Sie ein verbindliches Angebot ab.
 
 **§4 Preise & Zahlungsbedingungen**
 Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und ausgewiesen (Kleinunternehmerregelung). Vorkasse bei Produktionsbeginn.
