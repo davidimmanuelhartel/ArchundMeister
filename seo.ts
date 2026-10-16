@@ -20,7 +20,7 @@ const businessNode: Record<string, unknown> = {
   '@id': `${SITE_URL}/#business`,
   name: SITE_NAME,
   description:
-    'Massivholzmöbel aus Dresden. Ein Architekt entwirft sie, ein Schreiner baut sie von Hand.',
+    'Massivholzmöbel aus Dresden. Ein Architekt entwirft sie, ein Schreinermeister baut sie von Hand.',
   url: SITE_URL,
   email: 'architektundmeister@gmail.com',
   telephone: '+4915122807682',
@@ -36,7 +36,7 @@ const businessNode: Record<string, unknown> = {
   },
   founder: [
     { '@type': 'Person', name: 'Niclas Schlötke', jobTitle: 'Architekt' },
-    { '@type': 'Person', name: 'Lukas Westphalen', jobTitle: 'Schreiner' },
+    { '@type': 'Person', name: 'Lukas Westphalen', jobTitle: 'Schreinermeister' },
   ],
   areaServed: [
     { '@type': 'Country', name: 'Deutschland' },
@@ -122,7 +122,7 @@ const STATIC_SEO: Record<string, Omit<SeoData, 'canonical' | 'image'> & { image?
   '/': {
     title: 'Architekt & Meister – Handgefertigte Massivholzmöbel aus Dresden',
     description:
-      'Massivholzmöbel aus Dresden: Ein Architekt entwirft sie, ein Schreiner baut sie von Hand aus deutscher Fichte oder Eiche und fügt sie ohne Schrauben.',
+      'Massivholzmöbel aus Dresden: Ein Architekt entwirft sie, ein Schreinermeister baut sie von Hand aus deutscher Fichte oder Eiche und fügt sie ohne Schrauben.',
     jsonLd: [businessNode, websiteNode],
   },
   '/shop': {

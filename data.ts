@@ -114,7 +114,7 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Wer steckt hinter Architekt & Meister?',
     answer:
-      'Niclas Schlötke entwirft die Möbel als Architekt, Lukas Westphalen baut sie als Schreiner. Beide arbeiten in Dresden.',
+      'Niclas Schlötke entwirft die Möbel als Architekt, Lukas Westphalen baut sie als Schreinermeister in Dresden. Daher kommt der Name Architekt & Meister.',
   },
 ];
 
